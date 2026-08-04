@@ -46,7 +46,7 @@ jobs:
             --no-host-directories \
             --directory-prefix=. \
             --domains="$(echo "$SITE_URL" | sed -E 's#https?://([^/]+).*#\1#')" \
-            "$SITE_URL"
+            "$SITE_URL" || true
 
       - name: Commit and push mirrored site
         run: |
