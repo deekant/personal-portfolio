@@ -22,15 +22,13 @@ jobs:
       - name: Install wget
         run: sudo apt-get update && sudo apt-get install -y wget
 
-      - name: Clear previous mirrored output
+      # Only ever touches the site/ folder now - the pipeline files
+      # (.github, cloudflare-worker, README-setup.md) live outside it
+      # and are never at risk from this step.
+      - name: Clear previous mirrored site output
         run: |
-          find . -maxdepth 1 \
-            ! -name '.' \
-            ! -name '.git' \
-            ! -name '.github' \
-            ! -name 'cloudflare-worker' \
-            ! -name 'README-setup.md' \
-            -exec rm -rf {} +
+          rm -rf site
+          mkdir -p site
 
       - name: Mirror the published site
         env:
@@ -44,7 +42,7 @@ jobs:
             --span-hosts \
             --no-parent \
             --no-host-directories \
-            --directory-prefix=. \
+            --directory-prefix=site \
             --domains="$(echo "$SITE_URL" | sed -E 's#https?://([^/]+).*#\1#'),cdn.prod.website-files.com" \
             "$SITE_URL" || true
 
@@ -52,10 +50,12 @@ jobs:
         run: |
           git config user.name "webflow-mirror-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A
+          git add site
           if git diff --cached --quiet; then
             echo "No changes since last publish - nothing to commit."
           else
             git commit -m "Mirror Webflow publish - $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push --force
+            git fetch origin main
+            git merge origin/main --no-edit -X ours -m "Merge remote changes into mirror"
+            git push origin HEAD:main
           fi
