@@ -57,5 +57,5 @@ jobs:
             echo "No changes since last publish - nothing to commit."
           else
             git commit -m "Mirror Webflow publish - $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push
+            git push --force
           fi
