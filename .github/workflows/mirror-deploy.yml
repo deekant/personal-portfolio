@@ -23,17 +23,16 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y wget
 
       - name: Clear previous mirrored output
-        # Keeps .git, the workflow files, and any README - wipes everything
-        # else so removed/renamed pages don't linger as orphaned files.
         run: |
           find . -maxdepth 1 \
             ! -name '.' \
             ! -name '.git' \
             ! -name '.github' \
-            ! -name 'README.md' \
+            ! -name 'cloudflare-worker' \
+            ! -name 'README-setup.md' \
             -exec rm -rf {} +
 
-      - name: Mirror the published site
+     - name: Mirror the published site
         env:
           SITE_URL: ${{ secrets.WEBFLOW_SITE_URL }}
         run: |
@@ -42,10 +41,11 @@ jobs:
             --convert-links \
             --adjust-extension \
             --page-requisites \
+            --span-hosts \
             --no-parent \
             --no-host-directories \
             --directory-prefix=. \
-            --domains="$(echo "$SITE_URL" | sed -E 's#https?://([^/]+).*#\1#')" \
+            --domains="$(echo "$SITE_URL" | sed -E 's#https?://([^/]+).*#\1#'),cdn.prod.website-files.com" \
             "$SITE_URL" || true
 
       - name: Commit and push mirrored site
