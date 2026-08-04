@@ -32,7 +32,7 @@ jobs:
             ! -name 'README-setup.md' \
             -exec rm -rf {} +
 
-     - name: Mirror the published site
+      - name: Mirror the published site
         env:
           SITE_URL: ${{ secrets.WEBFLOW_SITE_URL }}
         run: |
