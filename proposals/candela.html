@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candela Search Proposal</title>
+<meta name="description" content="Design and Webflow build proposal for Candela Search — approach, pricing, scope, timeline and portfolio examples.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F5F1; --paper:#FFFFFF; --ink:#262320; --ink-soft:#5B5650;
+  --line:#E4DFD6; --accent:#9C6B2E; --accent-soft:#F1E4CE;
+  --good:#4B6B53;
+  font-size:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1B1915; --paper:#232019; --ink:#EFEAE2; --ink-soft:#B8B0A4;
+    --line:#38332A; --accent:#D9A54E; --accent-soft:#332A1A; --good:#8FB799;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1B1915; --paper:#232019; --ink:#EFEAE2; --ink-soft:#B8B0A4;
+  --line:#38332A; --accent:#D9A54E; --accent-soft:#332A1A; --good:#8FB799;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  line-height:1.6;
+  padding-inline:16px;
+  padding-block:48px;
+}
+.doc{
+  max-width:760px; margin:0 auto;
+  display:flex; flex-direction:column; gap:40px;
+}
+h1,h2,h3{font-family:'IBM Plex Serif',Georgia,serif; font-weight:500; text-wrap:balance; color:var(--ink);}
+h1{font-size:clamp(1.9rem,5vw,2.6rem); line-height:1.15; margin:0;}
+h2{font-size:1.3rem; margin:0 0 4px;}
+p{margin:0; max-width:65ch;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:10px;
+}
+.meta-row{display:flex; flex-wrap:wrap; gap:18px; font-size:.85rem; color:var(--ink-soft); margin-top:16px;}
+.meta-row span b{color:var(--ink); font-weight:500;}
+
+.card{
+  background:var(--paper); border:1px solid var(--line); border-radius:4px;
+  padding:28px; display:flex; flex-direction:column; gap:14px;
+}
+
+table{width:100%; border-collapse:collapse; font-size:.92rem;}
+th,td{text-align:left; padding:12px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+th{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:500;}
+td.price{font-variant-numeric:tabular-nums; font-weight:500; white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+.note{font-size:.82rem; color:var(--ink-soft); border-left:2px solid var(--accent); padding-left:12px; margin-top:4px;}
+
+.scope-list{display:flex; flex-direction:column; gap:10px; margin:0; padding:0;}
+.scope-item{display:flex; gap:10px; align-items:flex-start; font-size:.94rem;}
+.scope-item .dot{
+  flex:none; width:18px; height:18px; border-radius:50%; background:var(--good);
+  color:var(--paper); display:flex; align-items:center; justify-content:center;
+  font-size:.65rem; margin-top:2px;
+}
+
+.timeline{display:flex; flex-direction:column; gap:0; margin-top:4px;}
+.t-row{display:grid; grid-template-columns:28px 1fr; gap:14px;}
+.t-rail{display:flex; flex-direction:column; align-items:center;}
+.t-dot{width:11px; height:11px; border-radius:50%; background:var(--accent); margin-top:4px; flex:none;}
+.t-line{flex:1; width:1px; background:var(--line); margin:2px 0;}
+.t-row:last-child .t-line{display:none;}
+.t-body{padding-bottom:22px; min-width:0;}
+.t-week{font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--accent); letter-spacing:.06em; text-transform:uppercase;}
+.t-title{font-weight:500; margin-top:2px;}
+.t-desc{color:var(--ink-soft); font-size:.88rem; margin-top:2px;}
+
+.works{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;}
+.work{
+  border:1px solid var(--line); border-radius:4px; padding:18px;
+  display:flex; flex-direction:column; gap:8px; background:var(--paper); min-width:0;
+}
+.work .tag{font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--accent); text-transform:uppercase; letter-spacing:.05em;}
+.work h3{font-size:1.02rem; margin:0;}
+.work p{font-size:.86rem; color:var(--ink-soft);}
+.work a{font-size:.84rem; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--accent); align-self:flex-start; margin-top:auto;}
+.work a:hover{color:var(--accent);}
+
+.pill-row{display:flex; gap:10px; flex-wrap:wrap;}
+.pill{
+  font-family:'IBM Plex Mono',monospace; font-size:.72rem; padding:5px 10px;
+  background:var(--accent-soft); color:var(--accent); border-radius:999px;
+}
+
+footer{
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:10px;
+  border-top:1px solid var(--line); padding-top:20px; font-size:.84rem; color:var(--ink-soft);
+}
+a{color:inherit;}
+@media (max-width:480px){ .meta-row{flex-direction:column; gap:6px;} }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header>
+    <div class="eyebrow">Proposal — Candela Search Website</div>
+    <h1>Design and Webflow build for the Candela Search site redesign.</h1>
+    <div class="meta-row">
+      <span>Prepared for <b>Anna Rudya</b>, Candela Search</span>
+      <span>Reply to brief dated <b>22 Oct 2026</b></span>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="eyebrow">Approach</div>
+    <p>I'll work from your approved prototype page by page in Figma, keeping the structure and content you've signed off and turning it into one coherent system: a consistent icon set, the Candela arcs as a recurring motif, a proper type scale, and a component library shared across every page and the NEXT by Candela variant.</p>
+    <p>Where the prototype can go further structurally, I'll flag it rather than silently change it &mdash; it's the starting point, not a limit.</p>
+    <p>Motion is built natively in Webflow with GSAP, so what you see in the handoff is the real thing, not a Figma approximation. The four signature moments (rings, stat counters, logo strip, timeline) get prototyped early enough to catch reduced&#8209;motion and keyboard issues before they're repeated across templates.</p>
+    <p>I design and build myself &mdash; no handover gap between the person who designed a component and the person wiring it up.</p>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Pricing</div>
+    <table>
+      <thead>
+        <tr><th>Package</th><th>Level 1</th><th>Level 1 + 4 signature moments</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Design only<br><span class="note" style="border:none;padding-left:0;">Handover-ready for a Webflow developer</span></td>
+          <td class="price">$2,000</td>
+          <td class="price">$2,800</td>
+        </tr>
+        <tr>
+          <td>Design + Webflow build<br><span class="note" style="border:none;padding-left:0;">Built and launched by me</span></td>
+          <td class="price">$5,000</td>
+          <td class="price">$6,800</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Signature-moment uplift is a working estimate &mdash; open to revisiting once we agree exactly how custom the rings, counters and stage reveals need to be.</p>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">What's included in the build price</div>
+    <ul class="scope-list" style="list-style:none;">
+      <li class="scope-item"><span class="dot">&#10003;</span> CMS collections &mdash; Case Studies, Team, Client Logos, Vacancies, Insights scaffolded for later</li>
+      <li class="scope-item"><span class="dot">&#10003;</span> Schema markup &mdash; Organization, Person, Article/case&nbsp;study</li>
+      <li class="scope-item"><span class="dot">&#10003;</span> llms.txt and sitemap.xml</li>
+      <li class="scope-item"><span class="dot">&#10003;</span> Page renames with 301 redirects</li>
+      <li class="scope-item"><span class="dot">&#10003;</span> 30 days of post-launch bug fixes for anything that doesn't match the agreed design or behaviour</li>
+    </ul>
+    <p class="note">Two rounds of revisions are included at each stage &mdash; design, then build QA.</p>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Timeline &mdash; from design start to launch</div>
+    <div class="timeline">
+      <div class="t-row">
+        <div class="t-rail"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-body">
+          <div class="t-week">Weeks 1&ndash;3</div>
+          <div class="t-title">Design</div>
+          <div class="t-desc">Figma system build: components, type scale, icon set, motion spec for the four signature moments.</div>
+        </div>
+      </div>
+      <div class="t-row">
+        <div class="t-rail"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-body">
+          <div class="t-week">Weeks 4&ndash;7</div>
+          <div class="t-title">Webflow build</div>
+          <div class="t-desc">Component build, CMS collections, GSAP motion, schema/llms.txt/sitemap, redirects.</div>
+        </div>
+      </div>
+      <div class="t-row">
+        <div class="t-rail"><div class="t-dot"></div></div>
+        <div class="t-body">
+          <div class="t-week">From launch</div>
+          <div class="t-title">Handover &amp; bug-fix window</div>
+          <div class="t-desc">Walkthrough session, then 30 days covering anything that doesn't work as agreed.</div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Starting early November, working UK hours. ~7 weeks total, assuming content and brand assets land on schedule.</p>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Closest examples &mdash; designed and built by me, end to end</div>
+    <div class="works">
+      <div class="work">
+        <div class="tag">Institutional finance</div>
+        <h3>Digital Currency Group</h3>
+        <p>Institutional crypto investment platform with complex portfolio filtering across 200+ companies.</p>
+        <a href="https://currency-group.webflow.io" target="_blank" rel="noopener">currency-group.webflow.io &rarr;</a>
+      </div>
+      <div class="work">
+        <div class="tag">Professional services</div>
+        <h3>Security Consultants</h3>
+        <p>ISO 27001 / SOC 2 certification consultancy for B2B SaaS clients worldwide. Closest on tone &mdash; restrained, trust-led.</p>
+        <a href="https://securityconsultants.webflow.io" target="_blank" rel="noopener">securityconsultants.webflow.io &rarr;</a>
+      </div>
+      <div class="work">
+        <div class="tag">Motion range</div>
+        <h3>Midnight AM</h3>
+        <p>Creative concept site for a NY branding agency. Shows the editorial/motion range if you want signature moments pushed further.</p>
+        <a href="https://midnight-am.webflow.io" target="_blank" rel="noopener">midnight-am.webflow.io &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Prepared in response to the Candela Search brief, scope summary and prototype.</span>
+    <div class="pill-row"><span class="pill">Figma</span><span class="pill">Webflow</span><span class="pill">GSAP</span></div>
+  </footer>
+
+</div>
+</body>
+</html>
