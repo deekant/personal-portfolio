@@ -22,18 +22,12 @@ jobs:
       - name: Install wget
         run: sudo apt-get update && sudo apt-get install -y wget
 
-      # Only ever touches the site/ folder now - the pipeline files
-      # (.github, cloudflare-worker, README-setup.md) live outside it
-      # and are never at risk from this step.
-      - name: Clear previous mirrored site output
-        run: |
-          rm -rf site
-          mkdir -p site
-
-      - name: Mirror the published site
+      - name: Mirror the published site into a scratch dir
         env:
           SITE_URL: ${{ secrets.WEBFLOW_SITE_URL }}
         run: |
+          rm -rf /tmp/mirror
+          mkdir -p /tmp/mirror
           wget \
             --mirror \
             --convert-links \
@@ -42,15 +36,30 @@ jobs:
             --span-hosts \
             --no-parent \
             --no-host-directories \
-            --directory-prefix=site \
+            --directory-prefix=/tmp/mirror \
             --domains="$(echo "$SITE_URL" | sed -E 's#https?://([^/]+).*#\1#'),cdn.prod.website-files.com" \
             "$SITE_URL" || true
+
+      # Pages serves straight from the repo root (destination_dir "/"), so the
+      # mirror lands at root too. rsync --delete keeps stale Webflow-generated
+      # files from piling up, but the excludes below are the pipeline's own
+      # files plus anything hand-added to the repo (e.g. proposals/) - never
+      # touched by this sync regardless of what's in the mirror.
+      - name: Sync mirror into repo root
+        run: |
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='cloudflare-worker/' \
+            --exclude='README-setup.md' \
+            --exclude='proposals/' \
+            /tmp/mirror/ ./
 
       - name: Commit and push mirrored site
         run: |
           git config user.name "webflow-mirror-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add site
+          git add -A -- . ':!.github' ':!cloudflare-worker' ':!README-setup.md' ':!proposals'
           if git diff --cached --quiet; then
             echo "No changes since last publish - nothing to commit."
           else
