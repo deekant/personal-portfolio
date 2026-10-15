@@ -3,65 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Candela Search Proposal</title>
-<meta name="description" content="Design and Webflow build proposal for Candela Search — approach, pricing, scope, timeline and portfolio examples.">
+<meta name="description" content="Design and Webflow build proposal for Candela Search — approach, pricing, scope, page-by-page timeline and portfolio examples.">
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Candela Search Proposal</title>
 <style>
+/* layout: single scrolling white document, max 780px reading column */
+@font-face{
+  font-family:'InterDisplay';
+  src:url('fonts/InterDisplay.var.ttf') format('truetype-variations');
+  font-weight:100 900;
+  font-style:normal;
+  font-display:swap;
+}
 :root{
-  --bg:#F7F5F1; --paper:#FFFFFF; --ink:#262320; --ink-soft:#5B5650;
-  --line:#E4DFD6; --accent:#9C6B2E; --accent-soft:#F1E4CE;
+  --bg:#FFFFFF; --paper:#FFFFFF; --panel:#FAFAF9; --ink:#1C1A17; --ink-soft:#6B655D;
+  --line:#E7E3DC; --accent:#9C6B2E; --accent-soft:#F4EBD9;
   --good:#4B6B53;
+  color-scheme: light;
   font-size:16px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#1B1915; --paper:#232019; --ink:#EFEAE2; --ink-soft:#B8B0A4;
-    --line:#38332A; --accent:#D9A54E; --accent-soft:#332A1A; --good:#8FB799;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#1B1915; --paper:#232019; --ink:#EFEAE2; --ink-soft:#B8B0A4;
-  --line:#38332A; --accent:#D9A54E; --accent-soft:#332A1A; --good:#8FB799;
-  color-scheme: dark;
 }
 
 *{box-sizing:border-box;}
-html,body{margin:0;}
 body{
   background:var(--bg); color:var(--ink);
-  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-family:'InterDisplay',system-ui,-apple-system,'Segoe UI',sans-serif;
   line-height:1.6;
   padding-inline:16px;
   padding-block:48px;
 }
 .doc{
-  max-width:760px; margin:0 auto;
+  max-width:780px; margin:0 auto;
   display:flex; flex-direction:column; gap:40px;
 }
-h1,h2,h3{font-family:'IBM Plex Serif',Georgia,serif; font-weight:500; text-wrap:balance; color:var(--ink);}
-h1{font-size:clamp(1.9rem,5vw,2.6rem); line-height:1.15; margin:0;}
+h1,h2,h3{font-family:'InterDisplay',system-ui,sans-serif; font-weight:600; text-wrap:balance; color:var(--ink);}
+h1{font-size:clamp(1.9rem,5vw,2.6rem); line-height:1.15; margin:0; font-weight:700;}
 h2{font-size:1.3rem; margin:0 0 4px;}
 p{margin:0; max-width:65ch;}
 .eyebrow{
-  font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.12em;
+  font-family:'InterDisplay',sans-serif; font-weight:600; font-size:.72rem; letter-spacing:.12em;
   text-transform:uppercase; color:var(--accent); margin-bottom:10px;
 }
 .meta-row{display:flex; flex-wrap:wrap; gap:18px; font-size:.85rem; color:var(--ink-soft); margin-top:16px;}
-.meta-row span b{color:var(--ink); font-weight:500;}
+.meta-row span b{color:var(--ink); font-weight:600;}
 
 .card{
-  background:var(--paper); border:1px solid var(--line); border-radius:4px;
+  background:var(--paper); border:1px solid var(--line); border-radius:6px;
   padding:28px; display:flex; flex-direction:column; gap:14px;
 }
 
 table{width:100%; border-collapse:collapse; font-size:.92rem;}
 th,td{text-align:left; padding:12px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
-th{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:500;}
-td.price{font-variant-numeric:tabular-nums; font-weight:500; white-space:nowrap;}
+th{font-weight:600; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+td.price{font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap;}
 tr:last-child td{border-bottom:none;}
 .note{font-size:.82rem; color:var(--ink-soft); border-left:2px solid var(--accent); padding-left:12px; margin-top:4px;}
 
@@ -69,35 +62,24 @@ tr:last-child td{border-bottom:none;}
 .scope-item{display:flex; gap:10px; align-items:flex-start; font-size:.94rem;}
 .scope-item .dot{
   flex:none; width:18px; height:18px; border-radius:50%; background:var(--good);
-  color:var(--paper); display:flex; align-items:center; justify-content:center;
+  color:#fff; display:flex; align-items:center; justify-content:center;
   font-size:.65rem; margin-top:2px;
 }
 
-.timeline{display:flex; flex-direction:column; gap:0; margin-top:4px;}
-.t-row{display:grid; grid-template-columns:28px 1fr; gap:14px;}
-.t-rail{display:flex; flex-direction:column; align-items:center;}
-.t-dot{width:11px; height:11px; border-radius:50%; background:var(--accent); margin-top:4px; flex:none;}
-.t-line{flex:1; width:1px; background:var(--line); margin:2px 0;}
-.t-row:last-child .t-line{display:none;}
-.t-body{padding-bottom:22px; min-width:0;}
-.t-week{font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--accent); letter-spacing:.06em; text-transform:uppercase;}
-.t-title{font-weight:500; margin-top:2px;}
-.t-desc{color:var(--ink-soft); font-size:.88rem; margin-top:2px;}
-
 .works{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;}
 .work{
-  border:1px solid var(--line); border-radius:4px; padding:18px;
-  display:flex; flex-direction:column; gap:8px; background:var(--paper); min-width:0;
+  border:1px solid var(--line); border-radius:6px; padding:18px;
+  display:flex; flex-direction:column; gap:8px; background:var(--panel); min-width:0;
 }
-.work .tag{font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--accent); text-transform:uppercase; letter-spacing:.05em;}
-.work h3{font-size:1.02rem; margin:0;}
+.work .tag{font-weight:600; font-size:.68rem; color:var(--accent); text-transform:uppercase; letter-spacing:.05em;}
+.work h3{font-size:1.02rem; margin:0; font-weight:600;}
 .work p{font-size:.86rem; color:var(--ink-soft);}
 .work a{font-size:.84rem; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--accent); align-self:flex-start; margin-top:auto;}
 .work a:hover{color:var(--accent);}
 
 .pill-row{display:flex; gap:10px; flex-wrap:wrap;}
 .pill{
-  font-family:'IBM Plex Mono',monospace; font-size:.72rem; padding:5px 10px;
+  font-weight:600; font-size:.72rem; padding:5px 10px;
   background:var(--accent-soft); color:var(--accent); border-radius:999px;
 }
 
@@ -107,9 +89,48 @@ footer{
 }
 a{color:inherit;}
 @media (max-width:480px){ .meta-row{flex-direction:column; gap:6px;} }
+
+/* --- gantt --- */
+.gantt-legend{display:flex; gap:18px; flex-wrap:wrap; font-size:.78rem; color:var(--ink-soft);}
+.gantt-legend span{display:inline-flex; align-items:center; gap:6px;}
+.gantt-legend i{width:10px; height:10px; border-radius:2px; display:inline-block;}
+.gantt-wrap{overflow-x:auto; margin:4px -4px 0;}
+.gantt{min-width:640px; padding:4px;}
+.gantt-head{
+  display:grid; grid-template-columns:168px repeat(7,1fr);
+  font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft);
+  border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:6px;
+}
+.gantt-head .wk{text-align:center;}
+.milestone-band{
+  display:grid; grid-template-columns:168px repeat(7,1fr);
+  align-items:center; margin:12px 0 6px;
+}
+.milestone-band .m-label{font-size:.82rem; font-weight:600; color:var(--ink);}
+.milestone-band .m-bar{
+  grid-column:span 7 / span 7; height:22px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.68rem; font-weight:600; letter-spacing:.03em; color:#fff;
+}
+.milestone-band.design .m-bar{grid-column:2 / span 3; background:var(--accent);}
+.milestone-band.build .m-bar{grid-column:5 / span 3; background:var(--good);}
+.gantt-row{
+  display:grid; grid-template-columns:168px repeat(7,1fr);
+  align-items:center; min-height:30px; border-bottom:1px solid var(--line);
+}
+.gantt-row:last-child{border-bottom:none;}
+.gantt-row .p-label{font-size:.84rem; color:var(--ink); padding-right:8px;}
+.gantt-row .track{grid-column:2 / span 7; position:relative; height:16px;}
+.gantt-row .bar{
+  position:absolute; top:0; height:16px; border-radius:4px;
+  background:var(--accent-soft); border:1px solid var(--accent);
+}
+.gantt-row .bar.build{background:#E7EFE8; border-color:var(--good);}
 </style>
 </head>
 <body>
+
+
 <div class="doc">
 
   <header>
@@ -124,9 +145,9 @@ a{color:inherit;}
   <section class="card">
     <div class="eyebrow">Approach</div>
     <p>I'll work from your approved prototype page by page in Figma, keeping the structure and content you've signed off and turning it into one coherent system: a consistent icon set, the Candela arcs as a recurring motif, a proper type scale, and a component library shared across every page and the NEXT by Candela variant.</p>
-    <p>Where the prototype can go further structurally, I'll flag it rather than silently change it &mdash; it's the starting point, not a limit.</p>
-    <p>Motion is built natively in Webflow with GSAP, so what you see in the handoff is the real thing, not a Figma approximation. The four signature moments (rings, stat counters, logo strip, timeline) get prototyped early enough to catch reduced&#8209;motion and keyboard issues before they're repeated across templates.</p>
-    <p>I design and build myself &mdash; no handover gap between the person who designed a component and the person wiring it up.</p>
+    <p>Where the prototype can go further structurally, I'll flag it rather than silently change it — it's the starting point, not a limit.</p>
+    <p>Motion is built natively in Webflow with GSAP, so what you see in the handoff is the real thing, not a Figma approximation. The four signature moments (rings, stat counters, logo strip, timeline) get prototyped early enough to catch reduced‑motion and keyboard issues before they're repeated across templates.</p>
+    <p>I design and build myself — no handover gap between the person who designed a component and the person wiring it up.</p>
   </section>
 
   <section class="card">
@@ -148,72 +169,145 @@ a{color:inherit;}
         </tr>
       </tbody>
     </table>
-    <p class="note">Signature-moment uplift is a working estimate &mdash; open to revisiting once we agree exactly how custom the rings, counters and stage reveals need to be.</p>
+    <p class="note">Signature-moment uplift is a working estimate — open to revisiting once we agree exactly how custom the rings, counters and stage reveals need to be.</p>
   </section>
 
   <section class="card">
     <div class="eyebrow">What's included in the build price</div>
     <ul class="scope-list" style="list-style:none;">
-      <li class="scope-item"><span class="dot">&#10003;</span> CMS collections &mdash; Case Studies, Team, Client Logos, Vacancies, Insights scaffolded for later</li>
-      <li class="scope-item"><span class="dot">&#10003;</span> Schema markup &mdash; Organization, Person, Article/case&nbsp;study</li>
+      <li class="scope-item"><span class="dot">&#10003;</span> CMS collections — Case Studies, Team, Client Logos, Vacancies, Insights scaffolded for later</li>
+      <li class="scope-item"><span class="dot">&#10003;</span> Schema markup — Organization, Person, Article/case&nbsp;study</li>
       <li class="scope-item"><span class="dot">&#10003;</span> llms.txt and sitemap.xml</li>
       <li class="scope-item"><span class="dot">&#10003;</span> Page renames with 301 redirects</li>
       <li class="scope-item"><span class="dot">&#10003;</span> 30 days of post-launch bug fixes for anything that doesn't match the agreed design or behaviour</li>
     </ul>
-    <p class="note">Two rounds of revisions are included at each stage &mdash; design, then build QA.</p>
+    <p class="note">Two rounds of revisions are included at each stage — design, then build QA.</p>
   </section>
 
   <section class="card">
-    <div class="eyebrow">Timeline &mdash; from design start to launch</div>
-    <div class="timeline">
-      <div class="t-row">
-        <div class="t-rail"><div class="t-dot"></div><div class="t-line"></div></div>
-        <div class="t-body">
-          <div class="t-week">Weeks 1&ndash;3</div>
-          <div class="t-title">Design</div>
-          <div class="t-desc">Figma system build: components, type scale, icon set, motion spec for the four signature moments.</div>
+    <div class="eyebrow">Page-by-page timeline</div>
+    <h2>How the build actually moves through your 10 templates.</h2>
+    <p class="note" style="border:none; padding-left:0;">Shared elements (nav, footer, CTA band) come first since every page depends on them. Pages are then designed and built in roughly the same order, foundational pages first. ~7 weeks total from design start.</p>
+
+    <div class="gantt-legend">
+      <span><i style="background:var(--accent-soft); border:1px solid var(--accent);"></i>Design (weeks 1–3)</span>
+      <span><i style="background:#E7EFE8; border:1px solid var(--good);"></i>Webflow build (weeks 4–7)</span>
+    </div>
+
+    <div class="gantt-wrap">
+      <div class="gantt">
+        <div class="gantt-head">
+          <div></div>
+          <div class="wk">Wk 1</div><div class="wk">Wk 2</div><div class="wk">Wk 3</div>
+          <div class="wk">Wk 4</div><div class="wk">Wk 5</div><div class="wk">Wk 6</div><div class="wk">Wk 7</div>
         </div>
-      </div>
-      <div class="t-row">
-        <div class="t-rail"><div class="t-dot"></div><div class="t-line"></div></div>
-        <div class="t-body">
-          <div class="t-week">Weeks 4&ndash;7</div>
-          <div class="t-title">Webflow build</div>
-          <div class="t-desc">Component build, CMS collections, GSAP motion, schema/llms.txt/sitemap, redirects.</div>
+
+        <div class="milestone-band design">
+          <div class="m-label">Design</div>
+          <div class="m-bar">Weeks 1–3</div>
         </div>
-      </div>
-      <div class="t-row">
-        <div class="t-rail"><div class="t-dot"></div></div>
-        <div class="t-body">
-          <div class="t-week">From launch</div>
-          <div class="t-title">Handover &amp; bug-fix window</div>
-          <div class="t-desc">Walkthrough session, then 30 days covering anything that doesn't work as agreed.</div>
+
+        <div class="gantt-row">
+          <div class="p-label">Shared: nav, footer, CTA band</div>
+          <div class="track">
+            <div class="bar" style="left:0%; width:11%;"></div>
+            <div class="bar build" style="left:57%; width:8%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Home / About</div>
+          <div class="track">
+            <div class="bar" style="left:8%; width:16%;"></div>
+            <div class="bar build" style="left:57%; width:12%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Expertise</div>
+          <div class="track">
+            <div class="bar" style="left:22%; width:10%;"></div>
+            <div class="bar build" style="left:64%; width:7%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Process</div>
+          <div class="track">
+            <div class="bar" style="left:30%; width:11%;"></div>
+            <div class="bar build" style="left:67%; width:9%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Team + bio template</div>
+          <div class="track">
+            <div class="bar" style="left:39%; width:9%;"></div>
+            <div class="bar build" style="left:71%; width:8%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Case Studies hub + template</div>
+          <div class="track">
+            <div class="bar" style="left:46%; width:12%;"></div>
+            <div class="bar build" style="left:75%; width:11%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">NEXT by Candela</div>
+          <div class="track">
+            <div class="bar" style="left:56%; width:8%;"></div>
+            <div class="bar build" style="left:81%; width:6%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Contact Us + careers</div>
+          <div class="track">
+            <div class="bar" style="left:62%; width:9%;"></div>
+            <div class="bar build" style="left:85%; width:7%;"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="p-label">Privacy &amp; Cookies</div>
+          <div class="track">
+            <div class="bar" style="left:70%; width:5%;"></div>
+            <div class="bar build" style="left:91%; width:5%;"></div>
+          </div>
+        </div>
+
+        <div class="milestone-band build">
+          <div class="m-label">Webflow build</div>
+          <div class="m-bar">Weeks 4–7</div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="p-label">CMS, schema, SEO, QA &amp; handover</div>
+          <div class="track">
+            <div class="bar build" style="left:70%; width:28%;"></div>
+          </div>
         </div>
       </div>
     </div>
-    <p class="note">Starting early November, working UK hours. ~7 weeks total, assuming content and brand assets land on schedule.</p>
+
+    <p class="note">30-day bug-fix window runs from launch, after the last bar above.</p>
   </section>
 
   <section class="card">
-    <div class="eyebrow">Closest examples &mdash; designed and built by me, end to end</div>
+    <div class="eyebrow">Closest examples — designed and built by me, end to end</div>
     <div class="works">
       <div class="work">
         <div class="tag">Institutional finance</div>
         <h3>Digital Currency Group</h3>
         <p>Institutional crypto investment platform with complex portfolio filtering across 200+ companies.</p>
-        <a href="https://currency-group.webflow.io" target="_blank" rel="noopener">currency-group.webflow.io &rarr;</a>
+        <a href="https://currency-group.webflow.io" target="_blank" rel="noopener">currency-group.webflow.io →</a>
       </div>
       <div class="work">
         <div class="tag">Professional services</div>
         <h3>Security Consultants</h3>
-        <p>ISO 27001 / SOC 2 certification consultancy for B2B SaaS clients worldwide. Closest on tone &mdash; restrained, trust-led.</p>
-        <a href="https://securityconsultants.webflow.io" target="_blank" rel="noopener">securityconsultants.webflow.io &rarr;</a>
+        <p>ISO 27001 / SOC 2 certification consultancy for B2B SaaS clients worldwide. Closest on tone — restrained, trust-led.</p>
+        <a href="https://securityconsultants.webflow.io" target="_blank" rel="noopener">securityconsultants.webflow.io →</a>
       </div>
       <div class="work">
         <div class="tag">Motion range</div>
         <h3>Midnight AM</h3>
         <p>Creative concept site for a NY branding agency. Shows the editorial/motion range if you want signature moments pushed further.</p>
-        <a href="https://midnight-am.webflow.io" target="_blank" rel="noopener">midnight-am.webflow.io &rarr;</a>
+        <a href="https://midnight-am.webflow.io" target="_blank" rel="noopener">midnight-am.webflow.io →</a>
       </div>
     </div>
   </section>
@@ -224,5 +318,6 @@ a{color:inherit;}
   </footer>
 
 </div>
+
 </body>
 </html>
