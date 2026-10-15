@@ -34,6 +34,13 @@ jobs:
           curl -fsSL "$SITE_URL" -o index.html
           curl -fsSL "${SITE_URL%/}/robots.txt" -o robots.txt || true
 
+      # Webflow's runtime JS injects its "Made in Webflow" badge at
+      # #webflow-badge client-side (it's never in the published HTML, so
+      # a mirror alone never catches it) - hide it on every publish.
+      - name: Hide the Webflow badge
+        run: |
+          sed -i 's|</head>|<style>#webflow-badge{display:none!important}</style></head>|' index.html
+
       - name: Commit and push
         run: |
           git config user.name "webflow-mirror-bot"
