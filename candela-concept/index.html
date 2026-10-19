@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Candela Concept</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<style>
+/* layout concept: single 100vh dark hero, nav top / headline+CTA middle-left / press strip pinned bottom, concentric radar arcs bleeding off the right edge behind the copy */
+:root{
+  --bg:#121212; --fg:#F4F3F0; --fg-muted:#938F88; --line:#2A2A27;
+  --accent:#F2C94C; --accent-ink:#1A1505;
+  color-scheme: dark;
+  font-size:16px;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:'Archivo',Arial,system-ui,-apple-system,sans-serif;
+  padding-left:max(0px, env(safe-area-inset-left, 0px));
+  padding-right:max(0px, env(safe-area-inset-right, 0px));
+}
+.mono{font-family:'Geist Mono',ui-monospace,monospace;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
+#root{height:100vh;}
+
+.arcs{position:absolute; inset:0; overflow:hidden; pointer-events:none;}
+.arcs svg{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(1150px,120vw); height:auto;}
+@media (max-width:860px){
+  .arcs svg{width:170vw;}
+}
+.spin{transform-box:view-box; transform-origin:50% 50%; animation:spin 90s linear infinite;}
+.spin.rev{animation-direction:reverse;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion: reduce){ .spin{animation:none;} }
+
+.marquee{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+}
+.marquee-track{display:flex; width:max-content; animation:marquee 70s linear infinite;}
+.marquee:hover .marquee-track{animation-play-state:paused;}
+.marquee-row{display:flex; align-items:center; gap:56px; padding:0 28px; margin:0; list-style:none;}
+.marquee-row img{display:block; height:26px; width:auto; max-width:150px; object-fit:contain; opacity:.7;}
+@keyframes marquee{to{transform:translateX(-50%);}}
+@media (prefers-reduced-motion: reduce){ .marquee-track{animation:none;} }
+
+/* intro: rings draw in first, then the page content rises in */
+:root{ --ease-out: cubic-bezier(.16,1,.3,1); --ease-io: cubic-bezier(.65,0,.35,1); }
+.arcs svg{animation:arcsIn 2.6s var(--ease-out) both;}
+@keyframes arcsIn{
+  from{opacity:0; transform:translate(-50%,-50%) scale(.9) rotate(-30deg);}
+  to{opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0deg);}
+}
+.draw{stroke-dasharray:1; stroke-dashoffset:1; animation:draw 1.9s var(--ease-io) forwards; animation-delay:calc(var(--i) * 110ms);}
+@keyframes draw{to{stroke-dashoffset:0;}}
+.ticks-in{animation:fadeIn 1.4s ease both; animation-delay:.9s;}
+@keyframes fadeIn{from{opacity:0;}}
+.reveal{animation:rise 1.1s var(--ease-out) both; animation-delay:var(--d, 0s);}
+@keyframes rise{
+  from{opacity:0; transform:translateY(20px); filter:blur(8px);}
+  to{opacity:1; transform:none; filter:none;}
+}
+.word{display:inline-block;}
+@media (prefers-reduced-motion: reduce){
+  .arcs svg, .draw, .ticks-in, .reveal{animation:none !important;}
+  .draw{stroke-dashoffset:0;}
+}
+</style>
+</head>
+<body>
+
+
+<div id="root"></div>
+
+<script>
+const e = React.createElement;
+
+const C = 500;
+const pt = (r, deg) => [C + r * Math.cos((deg - 90) * Math.PI / 180), C + r * Math.sin((deg - 90) * Math.PI / 180)];
+function arc(r, a0, a1){
+  const [x0, y0] = pt(r, a0), [x1, y1] = pt(r, a1);
+  return `M${x0} ${y0} A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1} ${y1}`;
+}
+
+// thick segmented bands + thin rings + a tick-mark gauge + a diamond, all low-contrast
+function Arcs(){
+  const bands = [
+    { r: 470, w: 34, segs: [[-40, 70], [110, 200], [235, 300]], dur: 140, rev: false },
+    { r: 370, w: 22, segs: [[20, 160], [190, 330]], dur: 100, rev: true },
+    { r: 250, w: 46, segs: [[-70, 40], [80, 150], [200, 260]], dur: 80, rev: false },
+    { r: 150, w: 18, segs: [[0, 120], [150, 310]], dur: 60, rev: true },
+  ];
+  const thin = [420, 320, 300, 200, 95];
+  const ticks = [];
+  for (let d = -80; d <= 80; d += 2.5) ticks.push(d);
+  return e('div', { className: 'arcs', 'aria-hidden': 'true' },
+    e('svg', { viewBox: '0 0 1000 1000', fill: 'none' },
+      e('g', { stroke: '#181818' },
+        bands.map((b, bi) => e('g', {
+          key: b.r, className: b.rev ? 'spin rev' : 'spin', style: { animationDuration: `${b.dur}s` },
+        }, b.segs.map(([a0, a1]) =>
+          e('path', { key: a0, d: arc(b.r, a0, a1), strokeWidth: b.w, pathLength: 1, className: 'draw', style: { '--i': 3 - bi } })
+        )))
+      ),
+      e('g', { stroke: '#1F1F1F', strokeWidth: 1.5 },
+        thin.map((r, ti) => e('circle', { key: r, cx: C, cy: C, r, pathLength: 1, className: 'draw', style: { '--i': thin.length - ti } }))
+      ),
+      e('g', { className: 'ticks-in' },
+        e('g', { className: 'spin', style: { animationDuration: '180s' }, stroke: '#222222', strokeWidth: 2 },
+          ticks.map((d) => {
+            const [x1, y1] = pt(395, d), [x2, y2] = pt(d % 10 === 0 ? 345 : 362, d);
+            return e('line', { key: d, x1, y1, x2, y2 });
+          })
+        )
+      ),
+      e('circle', { cx: C, cy: C, r: 18, fill: '#181818' })
+    )
+  );
+}
+
+function NavLink({ children }) {
+  return e('a', {
+    href: '#',
+    className: 'mono uppercase text-[13px] font-medium tracking-[0.04em] text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors',
+  }, children);
+}
+
+const MENU = ['Expertise', 'Process', 'Case Studies', 'NEXT by Candela', 'Team'];
+
+function Nav(){
+  return e('header', { className: 'reveal relative z-10 px-6 sm:px-12 border-b border-[var(--line)]', style: { '--d': '1.4s' } },
+    e('div', { className: 'mx-auto max-w-[1600px] h-[72px] flex items-center gap-10' },
+      e('a', { href: '#', className: 'shrink-0 flex items-center gap-2.5', 'aria-label': 'Candela Search home' },
+        e('img', { src: 'logos/candela-icon.png', alt: '', className: 'h-8 w-auto' }),
+        e('img', { src: 'logos/candela-word.png', alt: 'Candela', className: 'h-[17px] w-auto' })
+      ),
+      e('nav', { className: 'hidden lg:flex items-center gap-7', 'aria-label': 'Primary' },
+        MENU.map((m) => e(NavLink, { key: m }, m))
+      ),
+      e('a', {
+        href: '#',
+        className: 'ml-auto text-sm font-medium px-4 py-2 rounded-full border border-[var(--line)] text-[var(--fg)] hover:border-[var(--fg-muted)] transition-colors',
+      }, 'Contact Us')
+    )
+  );
+}
+
+function Hero(){
+  return e('main', { className: 'relative z-10 flex-1 min-h-0 flex flex-col justify-center px-6 sm:px-12 py-6 overflow-y-auto' },
+    e('div', { className: 'w-full max-w-[1600px] mx-auto' },
+      e('h1', {
+        className: 'max-w-[900px] text-[clamp(2.6rem,7vw,6rem)] leading-[1.04] font-normal tracking-[-0.03em] text-[var(--fg)] text-balance',
+      }, 'In Pursuit of Extraordinary Talent'.split(' ').flatMap((w, i, all) => [
+        e('span', { key: i, className: 'word reveal', style: { '--d': `${1.6 + i * 0.08}s` } }, w),
+        i < all.length - 1 ? ' ' : null,
+      ])),
+      e('div', { className: 'mt-10 md:mt-6 md:ml-auto md:w-fit flex flex-col gap-6' },
+        e('p', { className: 'reveal max-w-[400px] text-[var(--fg-muted)] text-lg leading-snug', style: { '--d': '2.15s' } },
+          'Candela Search is an independent executive search firm specialising in technology, digital, data and AI leadership. We find the leaders who make transformation happen.'
+        ),
+        e('div', { className: 'reveal flex items-center gap-3', style: { '--d': '2.3s' } },
+          e('a', {
+            href: '#',
+            className: 'inline-flex items-center gap-2 rounded-full bg-[var(--accent)] text-[var(--accent-ink)] font-medium px-5 py-3 text-sm hover:brightness-95 transition',
+          },
+            'Talk to a team'
+          ),
+          e('a', {
+            href: '#',
+            className: 'text-sm px-5 py-3 rounded-full border border-[var(--line)] text-[var(--fg)] hover:border-[var(--fg-muted)] transition-colors',
+          }, 'Case studies')
+        )
+      )
+    )
+  );
+}
+
+const LOGOS = [
+  ['jpmorgan_chase-logo-crop', 'JPMorgan Chase'], ['samsung-svg', 'Samsung'], ['astrazeneca', 'AstraZeneca'],
+  ['pepsico', 'PepsiCo'], ['hpe', 'Hewlett Packard Enterprise'], ['experian', 'Experian'], ['bp', 'BP'],
+  ['gsk_02', 'GSK'], ['humana_logo', 'Humana'], ['volkswagen-logo-2019-1500x1500', 'Volkswagen'],
+  ['takeda_logo_02', 'Takeda'], ['elsevier_orange_logo', 'Elsevier'], ['johnson-controls', 'Johnson Controls'],
+  ['walgreens_logo_rgb_750x208', 'Walgreens'], ['mattel-logo', 'Mattel'], ['skechers-logo', 'Skechers'],
+  ['petsmart', 'PetSmart'], ['shutterfly_logo', 'Shutterfly'], ['tenet-healthcare', 'Tenet Healthcare'],
+  ['smithfield', 'Smithfield'], ['nandos-logo', "Nando's"], ['jcpenney', 'JCPenney'],
+  ['dicks-sg-logo', "Dick's Sporting Goods"], ['ftd_logo_2019-svg', 'FTD'],
+];
+
+function LogoRow({ hidden }){
+  return e('ul', { className: 'marquee-row', 'aria-hidden': hidden ? 'true' : undefined },
+    LOGOS.map(([f, name]) => e('li', { key: f },
+      e('img', { src: `logos/${f}.png`, alt: hidden ? '' : name })
+    ))
+  );
+}
+
+function PressStrip(){
+  return e('footer', { className: 'reveal relative z-10 pb-8 sm:pb-10', style: { '--d': '2.5s' } },
+    e('p', { className: 'text-sm text-[var(--fg-muted)] text-center mb-10 px-6' }, 'Trusted by leadership teams'),
+    e('div', { className: 'marquee mx-auto max-w-[1600px]' },
+      e('div', { className: 'marquee-track' },
+        e(LogoRow, null),
+        e(LogoRow, { hidden: true })
+      )
+    )
+  );
+}
+
+function App(){
+  return e('div', { className: 'relative h-screen flex flex-col overflow-hidden' },
+    e(Arcs, null),
+    e(Nav, null),
+    e(Hero, null),
+    e(PressStrip, null)
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(e(App, null));
+</script>
+
+</body>
+</html>
