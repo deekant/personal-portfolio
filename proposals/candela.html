@@ -39,24 +39,23 @@ h1,h2,h3{font-family:'InterDisplay',system-ui,sans-serif; font-weight:600; text-
 h1{font-size:clamp(1.9rem,5vw,2.6rem); line-height:1.15; margin:0; font-weight:700;}
 h2{font-size:1.3rem; margin:0 0 4px;}
 p{margin:0; max-width:65ch;}
-.eyebrow{
-  font-family:'InterDisplay',sans-serif; font-weight:600; font-size:.72rem; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--accent); margin-bottom:10px;
-}
+.kicker{font-size:.92rem; color:var(--ink-soft); margin-bottom:10px;}
 .meta-row{display:flex; flex-wrap:wrap; gap:18px; font-size:.85rem; color:var(--ink-soft); margin-top:16px;}
 .meta-row span b{color:var(--ink); font-weight:600;}
 
-.card{
-  background:var(--paper); border:1px solid var(--line); border-radius:6px;
-  padding:28px; display:flex; flex-direction:column; gap:14px;
+.section{
+  border-top:1px solid var(--line);
+  padding-top:28px;
+  display:flex; flex-direction:column; gap:14px;
 }
+.section h2{font-size:1.45rem;}
 
 table{width:100%; border-collapse:collapse; font-size:.92rem;}
 th,td{text-align:left; padding:12px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
-th{font-weight:600; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+th{font-weight:600; font-size:.82rem; color:var(--ink-soft);}
 td.price{font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap;}
 tr:last-child td{border-bottom:none;}
-.note{font-size:.82rem; color:var(--ink-soft); border-left:2px solid var(--accent); padding-left:12px; margin-top:4px;}
+.note{font-size:.82rem; color:var(--ink-soft); margin-top:4px;}
 
 .scope-list{display:flex; flex-direction:column; gap:10px; margin:0; padding:0;}
 .scope-item{display:flex; gap:10px; align-items:flex-start; font-size:.94rem;}
@@ -66,12 +65,9 @@ tr:last-child td{border-bottom:none;}
   font-size:.65rem; margin-top:2px;
 }
 
-.works{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;}
-.work{
-  border:1px solid var(--line); border-radius:6px; padding:18px;
-  display:flex; flex-direction:column; gap:8px; background:var(--panel); min-width:0;
-}
-.work .tag{font-weight:600; font-size:.68rem; color:var(--accent); text-transform:uppercase; letter-spacing:.05em;}
+.works{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px;}
+.work{display:flex; flex-direction:column; gap:8px; min-width:0;}
+.work .tag{font-weight:600; font-size:.78rem; color:var(--accent);}
 .work h3{font-size:1.02rem; margin:0; font-weight:600;}
 .work p{font-size:.86rem; color:var(--ink-soft);}
 .work a{font-size:.84rem; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--accent); align-self:flex-start; margin-top:auto;}
@@ -95,32 +91,32 @@ a{color:inherit;}
 .gantt-legend span{display:inline-flex; align-items:center; gap:6px;}
 .gantt-legend i{width:10px; height:10px; border-radius:2px; display:inline-block;}
 .gantt-wrap{overflow-x:auto; margin:4px -4px 0;}
-.gantt{min-width:640px; padding:4px;}
+.gantt{min-width:420px; padding:4px;}
 .gantt-head{
-  display:grid; grid-template-columns:168px repeat(7,1fr);
-  font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft);
+  display:grid; grid-template-columns:168px repeat(3,1fr);
+  font-size:.78rem; font-weight:600; color:var(--ink-soft);
   border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:6px;
 }
 .gantt-head .wk{text-align:center;}
 .milestone-band{
-  display:grid; grid-template-columns:168px repeat(7,1fr);
+  display:grid; grid-template-columns:168px repeat(3,1fr);
   align-items:center; margin:12px 0 6px;
 }
-.milestone-band .m-label{font-size:.82rem; font-weight:600; color:var(--ink);}
+.milestone-band .m-label{font-size:.9rem; font-weight:600; color:var(--ink);}
 .milestone-band .m-bar{
-  grid-column:span 7 / span 7; height:22px; border-radius:999px;
+  height:22px; border-radius:999px;
   display:flex; align-items:center; justify-content:center;
-  font-size:.68rem; font-weight:600; letter-spacing:.03em; color:#fff;
+  font-size:.72rem; font-weight:600; color:#fff;
 }
-.milestone-band.design .m-bar{grid-column:2 / span 3; background:var(--accent);}
-.milestone-band.build .m-bar{grid-column:5 / span 3; background:var(--good);}
+.milestone-band.design .m-bar{grid-column:2 / span 1; background:var(--accent);}
+.milestone-band.build .m-bar{grid-column:3 / span 2; background:var(--good);}
 .gantt-row{
-  display:grid; grid-template-columns:168px repeat(7,1fr);
+  display:grid; grid-template-columns:168px repeat(3,1fr);
   align-items:center; min-height:30px; border-bottom:1px solid var(--line);
 }
 .gantt-row:last-child{border-bottom:none;}
 .gantt-row .p-label{font-size:.84rem; color:var(--ink); padding-right:8px;}
-.gantt-row .track{grid-column:2 / span 7; position:relative; height:16px;}
+.gantt-row .track{grid-column:2 / span 3; position:relative; height:16px;}
 .gantt-row .bar{
   position:absolute; top:0; height:16px; border-radius:4px;
   background:var(--accent-soft); border:1px solid var(--accent);
@@ -134,7 +130,7 @@ a{color:inherit;}
 <div class="doc">
 
   <header>
-    <div class="eyebrow">Proposal — Candela Search Website</div>
+    <div class="kicker">Proposal — Candela Search Website</div>
     <h1>Design and Webflow build for the Candela Search site redesign.</h1>
     <div class="meta-row">
       <span>Prepared for <b>Anna Rudya</b>, Candela Search</span>
@@ -142,28 +138,28 @@ a{color:inherit;}
     </div>
   </header>
 
-  <section class="card">
-    <div class="eyebrow">Approach</div>
+  <section class="section">
+    <h2>Approach</h2>
     <p>I'll work from your approved prototype page by page in Figma, keeping the structure and content you've signed off and turning it into one coherent system: a consistent icon set, the Candela arcs as a recurring motif, a proper type scale, and a component library shared across every page and the NEXT by Candela variant.</p>
     <p>Where the prototype can go further structurally, I'll flag it rather than silently change it — it's the starting point, not a limit.</p>
     <p>Motion is built natively in Webflow with GSAP, so what you see in the handoff is the real thing, not a Figma approximation. The four signature moments (rings, stat counters, logo strip, timeline) get prototyped early enough to catch reduced‑motion and keyboard issues before they're repeated across templates.</p>
     <p>I design and build myself — no handover gap between the person who designed a component and the person wiring it up.</p>
   </section>
 
-  <section class="card">
-    <div class="eyebrow">Pricing</div>
+  <section class="section">
+    <h2>Pricing</h2>
     <table>
       <thead>
         <tr><th>Package</th><th>Level 1</th><th>Level 1 + 4 signature moments</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Design only<br><span class="note" style="border:none;padding-left:0;">Handover-ready for a Webflow developer</span></td>
+          <td>Design only<br><span class="note">Handover-ready for a Webflow developer</span></td>
           <td class="price">$2,000</td>
           <td class="price">$2,800</td>
         </tr>
         <tr>
-          <td>Design + Webflow build<br><span class="note" style="border:none;padding-left:0;">Built and launched by me</span></td>
+          <td>Design + Webflow build<br><span class="note">Built and launched by me</span></td>
           <td class="price">$5,000</td>
           <td class="price">$6,800</td>
         </tr>
@@ -172,8 +168,8 @@ a{color:inherit;}
     <p class="note">Signature-moment uplift is a working estimate — open to revisiting once we agree exactly how custom the rings, counters and stage reveals need to be.</p>
   </section>
 
-  <section class="card">
-    <div class="eyebrow">What's included in the build price</div>
+  <section class="section">
+    <h2>What's included in the build price</h2>
     <ul class="scope-list" style="list-style:none;">
       <li class="scope-item"><span class="dot">&#10003;</span> CMS collections — Case Studies, Team, Client Logos, Vacancies, Insights scaffolded for later</li>
       <li class="scope-item"><span class="dot">&#10003;</span> Schema markup — Organization, Person, Article/case&nbsp;study</li>
@@ -184,102 +180,100 @@ a{color:inherit;}
     <p class="note">Two rounds of revisions are included at each stage — design, then build QA.</p>
   </section>
 
-  <section class="card">
-    <div class="eyebrow">Page-by-page timeline</div>
-    <h2>How the build actually moves through your 10 templates.</h2>
-    <p class="note" style="border:none; padding-left:0;">Shared elements (nav, footer, CTA band) come first since every page depends on them. Pages are then designed and built in roughly the same order, foundational pages first. ~7 weeks total from design start.</p>
+  <section class="section">
+    <h2>Page-by-page timeline</h2>
+    <p>How the build actually moves through your 10 templates. Shared elements (nav, footer, CTA band) come first since every page depends on them, then pages are designed and built in roughly the same order. Starting early November, working UK hours — 1 week design, 2 weeks Webflow build, ~3 weeks total.</p>
 
     <div class="gantt-legend">
-      <span><i style="background:var(--accent-soft); border:1px solid var(--accent);"></i>Design (weeks 1–3)</span>
-      <span><i style="background:#E7EFE8; border:1px solid var(--good);"></i>Webflow build (weeks 4–7)</span>
+      <span><i style="background:var(--accent-soft); border:1px solid var(--accent);"></i>Design (week 1)</span>
+      <span><i style="background:#E7EFE8; border:1px solid var(--good);"></i>Webflow build (weeks 2–3)</span>
     </div>
 
     <div class="gantt-wrap">
       <div class="gantt">
         <div class="gantt-head">
           <div></div>
-          <div class="wk">Wk 1</div><div class="wk">Wk 2</div><div class="wk">Wk 3</div>
-          <div class="wk">Wk 4</div><div class="wk">Wk 5</div><div class="wk">Wk 6</div><div class="wk">Wk 7</div>
+          <div class="wk">Week 1</div><div class="wk">Week 2</div><div class="wk">Week 3</div>
         </div>
 
         <div class="milestone-band design">
           <div class="m-label">Design</div>
-          <div class="m-bar">Weeks 1–3</div>
+          <div class="m-bar">Week 1</div>
         </div>
 
         <div class="gantt-row">
           <div class="p-label">Shared: nav, footer, CTA band</div>
           <div class="track">
-            <div class="bar" style="left:0%; width:11%;"></div>
-            <div class="bar build" style="left:57%; width:8%;"></div>
+            <div class="bar" style="left:0%; width:12%;"></div>
+            <div class="bar build" style="left:33%; width:16%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Home / About</div>
           <div class="track">
-            <div class="bar" style="left:8%; width:16%;"></div>
-            <div class="bar build" style="left:57%; width:12%;"></div>
+            <div class="bar" style="left:2.5%; width:14%;"></div>
+            <div class="bar build" style="left:38%; width:20%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Expertise</div>
           <div class="track">
-            <div class="bar" style="left:22%; width:10%;"></div>
-            <div class="bar build" style="left:64%; width:7%;"></div>
+            <div class="bar" style="left:5%; width:10%;"></div>
+            <div class="bar build" style="left:43%; width:14%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Process</div>
           <div class="track">
-            <div class="bar" style="left:30%; width:11%;"></div>
-            <div class="bar build" style="left:67%; width:9%;"></div>
+            <div class="bar" style="left:7.5%; width:11%;"></div>
+            <div class="bar build" style="left:48%; width:16%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Team + bio template</div>
           <div class="track">
-            <div class="bar" style="left:39%; width:9%;"></div>
-            <div class="bar build" style="left:71%; width:8%;"></div>
+            <div class="bar" style="left:10%; width:9%;"></div>
+            <div class="bar build" style="left:53%; width:13%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Case Studies hub + template</div>
           <div class="track">
-            <div class="bar" style="left:46%; width:12%;"></div>
-            <div class="bar build" style="left:75%; width:11%;"></div>
+            <div class="bar" style="left:13%; width:12%;"></div>
+            <div class="bar build" style="left:58%; width:18%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">NEXT by Candela</div>
           <div class="track">
-            <div class="bar" style="left:56%; width:8%;"></div>
-            <div class="bar build" style="left:81%; width:6%;"></div>
+            <div class="bar" style="left:15.5%; width:8%;"></div>
+            <div class="bar build" style="left:63%; width:11%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Contact Us + careers</div>
           <div class="track">
-            <div class="bar" style="left:62%; width:9%;"></div>
-            <div class="bar build" style="left:85%; width:7%;"></div>
+            <div class="bar" style="left:18%; width:9%;"></div>
+            <div class="bar build" style="left:68%; width:13%;"></div>
           </div>
         </div>
         <div class="gantt-row">
           <div class="p-label">Privacy &amp; Cookies</div>
           <div class="track">
-            <div class="bar" style="left:70%; width:5%;"></div>
-            <div class="bar build" style="left:91%; width:5%;"></div>
+            <div class="bar" style="left:20.5%; width:6%;"></div>
+            <div class="bar build" style="left:73%; width:9%;"></div>
           </div>
         </div>
 
         <div class="milestone-band build">
           <div class="m-label">Webflow build</div>
-          <div class="m-bar">Weeks 4–7</div>
+          <div class="m-bar">Weeks 2–3</div>
         </div>
 
         <div class="gantt-row">
           <div class="p-label">CMS, schema, SEO, QA &amp; handover</div>
           <div class="track">
-            <div class="bar build" style="left:70%; width:28%;"></div>
+            <div class="bar build" style="left:70%; width:30%;"></div>
           </div>
         </div>
       </div>
@@ -288,8 +282,8 @@ a{color:inherit;}
     <p class="note">30-day bug-fix window runs from launch, after the last bar above.</p>
   </section>
 
-  <section class="card">
-    <div class="eyebrow">Closest examples — designed and built by me, end to end</div>
+  <section class="section">
+    <h2>Closest examples — designed and built by me, end to end</h2>
     <div class="works">
       <div class="work">
         <div class="tag">Institutional finance</div>
