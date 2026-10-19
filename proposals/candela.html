@@ -24,8 +24,10 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 
 /* nav */
 .nav{position:absolute; top:0; left:0; right:0; z-index:5; color:var(--on-black);}
-.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:80px;}
-.nav svg{height:22px; width:auto; display:block;}
+.nav .wrap{display:flex; align-items:center; justify-content:center; height:96px;}
+.lockup{display:flex; align-items:center; gap:clamp(14px,2vw,22px);}
+.lockup svg, .lockup img{height:34px; width:auto; display:block;}
+.lockup .x{font-size:20px; line-height:1; color:var(--on-black-muted); font-weight:300;}
 
 /* hero */
 .hero{background:var(--black); color:var(--on-black); position:relative; overflow:hidden;}
@@ -131,9 +133,13 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 
 <header class="nav">
   <div class="wrap">
-    <a href="https://kantalinsky.com/" aria-label="Dima Kantalinsky home">
-      <svg viewBox="0 0 350 250" fill="currentColor" aria-hidden="true"><path d="M200 150H300V250H200V150Z"/><path d="M350 0L100 250H0V100L100 0v109.136L208.895 0H350z"/></svg>
-    </a>
+    <div class="lockup">
+      <a href="https://kantalinsky.com/" aria-label="Dima Kantalinsky home">
+        <svg viewBox="0 0 350 250" fill="currentColor" aria-hidden="true"><path d="M200 150H300V250H200V150Z"/><path d="M350 0L100 250H0V100L100 0v109.136L208.895 0H350z"/></svg>
+      </a>
+      <span class="x" aria-hidden="true">×</span>
+      <img src="fonts/candela-white.png" alt="Candela Search">
+    </div>
   </div>
 </header>
 
@@ -141,7 +147,6 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
   <div class="wrap">
     <h1 class="display">Candela Search<br>Website Redesign</h1>
     <p class="hero-sub">Design and Webflow build for <b>Candela Search</b>, prepared for <b>Anna Rudya</b></p>
-    <div class="talk"><a href="#contact"><span>Let’s Talk</span></a></div>
   </div>
 </section>
 
