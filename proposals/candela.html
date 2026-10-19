@@ -55,7 +55,7 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
   transform:translateY(101%); transition:transform .55s var(--ease);
 }
 .talk a:hover::before, .btn:hover::before, .talk a:focus-visible::before, .btn:focus-visible::before{transform:translateY(0);}
-.talk a:hover, .btn:hover, .talk a:focus-visible, .btn:focus-visible{color:var(--ink);}
+.talk a:hover, .btn:hover, .talk a:focus-visible, .btn:focus-visible{color:var(--on-black);}
 .btn > *, .talk a > *{position:relative; z-index:1;}
 .btn svg{transition:transform .45s var(--ease);}
 .btn:hover svg{transform:translate(4px,0);}
@@ -108,13 +108,13 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 .g-row.milestone .bar{top:14px; height:24px; color:#fff; font-size:13px; display:flex; align-items:center; padding-left:10px; white-space:nowrap;}
 
 /* examples */
-.works{display:flex; flex-direction:column; gap:clamp(56px,7vw,96px);}
-.work{display:flex; flex-direction:column; gap:20px; min-width:0;}
-.work img{display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; background:#111;}
-.work h3{font-size:clamp(2.6rem,4vw,4rem);}
-.work p{margin:0; font-size:18px; max-width:56ch;}
+.works{display:flex; flex-direction:column; gap:clamp(40px,5vw,64px); max-width:520px;}
+.work{display:flex; flex-direction:column; gap:14px; min-width:0;}
+.work img{display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; background:#111;}
+.work h3{font-size:clamp(2rem,2.8vw,2.8rem);}
+.work p{margin:0; font-size:16px; max-width:56ch;}
 .btn svg{width:18px; height:18px;}
-.work .btn{margin-top:4px;}
+.work .btn{margin-top:2px; padding:14px 18px; font-size:16px;}
 
 /* highlights */
 .stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,4vw,56px); margin:0 0 clamp(48px,6vw,80px);}
