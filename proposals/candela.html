@@ -29,14 +29,13 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 
 /* hero */
 .hero{background:var(--black); color:var(--on-black); position:relative; overflow:hidden;}
-.hero .wrap{padding-top:clamp(140px,18vw,220px); padding-bottom:40px; display:flex; flex-direction:column; gap:clamp(56px,8vw,120px);}
-.hero h1{font-size:clamp(4rem,13vw,11rem); text-align:center; text-wrap:balance;}
-.hero-foot{display:grid; grid-template-columns:1fr; gap:32px; align-items:end;}
-@media (min-width:900px){ .hero-foot{grid-template-columns:1fr 400px;} }
-.hero-foot p{margin:0; max-width:420px; font-size:17px; color:var(--on-black); text-indent:60px;}
-.hero-foot p b{font-weight:500;}
-.talk{border:1px solid var(--on-black); background:var(--on-black); color:var(--ink);}
-.talk p{margin:0; padding:16px; font-size:16px; text-indent:0; color:var(--ink);}
+.hero .wrap{padding-top:clamp(120px,13vw,170px); padding-bottom:clamp(40px,5vw,64px); display:flex; flex-direction:column; align-items:center; gap:clamp(24px,3vw,40px);}
+.hero h1{font-size:clamp(3.4rem,10.5vw,8.5rem); text-align:center; text-wrap:balance;}
+.hero-sub{margin:0; max-width:none; white-space:nowrap; text-align:center; font-size:clamp(16px,1.3vw,19px); line-height:1.5;}
+.hero-sub b{font-weight:500;}
+.talk{width:min(100%,300px); margin-top:8px;}
+.talk a{border:1px solid var(--on-black);}
+@media (max-width:600px){ .hero-sub{white-space:normal; text-wrap:balance;} }
 .talk a::after{content:""; width:7px; height:7px; background:var(--red); position:relative; z-index:1; transition:background .45s var(--ease);}
 .talk a:hover::after{background:var(--ink);}
 
@@ -141,13 +140,8 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 <section class="hero">
   <div class="wrap">
     <h1 class="display">Candela Search<br>Website Redesign</h1>
-    <div class="hero-foot">
-      <p>Design and Webflow build for <b>Candela Search</b>, prepared for <b>Anna Rudya</b> in reply to the brief dated 22&nbsp;October&nbsp;2026.</p>
-      <div class="talk">
-        <p>Questions about this proposal? Happy to walk you through it on a short call.</p>
-        <a href="#contact"><span>Let’s Talk</span></a>
-      </div>
-    </div>
+    <p class="hero-sub">Design and Webflow build for <b>Candela Search</b>, prepared for <b>Anna Rudya</b></p>
+    <div class="talk"><a href="#contact"><span>Let’s Talk</span></a></div>
   </div>
 </section>
 
