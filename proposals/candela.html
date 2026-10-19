@@ -115,6 +115,11 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 .work h3{font-size:clamp(2rem,2.8vw,2.8rem);}
 .work p{margin:0; font-size:16px; max-width:56ch;}
 .btn svg{width:18px; height:18px;}
+.works.small{max-width:380px;}
+.work .shot{display:block; overflow:hidden;}
+.work .shot img{transition:transform .8s var(--ease);}
+.work .shot:hover img{transform:scale(1.03);}
+@media (prefers-reduced-motion: reduce){ .work .shot img{transition:none;} }
 .work .btn{margin-top:2px; padding:14px 18px; font-size:16px;}
 
 /* highlights */
@@ -285,8 +290,9 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
         <h2 class="display">Homepage <br>Concept</h2>
         <p class="lede">A first look at how a Candela homepage hero could feel.</p>
       </div>
-      <div class="works">
+      <div class="works small">
         <article class="work">
+          <a class="shot" href="https://www.kantalinsky.com/candela-concept/" target="_blank" rel="noopener" aria-label="Open the Candela homepage concept"><img src="previews/concept.jpg" alt="Preview of the Candela homepage concept" loading="lazy"></a>
           <p>A one-section concept with slowly turning arcs, a staggered intro and a looping strip of your clients.</p>
           <a class="btn" href="https://www.kantalinsky.com/candela-concept/" target="_blank" rel="noopener"><span>View Concept</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
         </article>
