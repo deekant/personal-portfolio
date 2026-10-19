@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.tailwindcss.com/3.4.1"></script>
@@ -24,11 +24,12 @@
 html,body{height:100%;}
 body{
   margin:0; background:var(--bg); color:var(--fg);
-  font-family:'Archivo',Arial,system-ui,-apple-system,sans-serif;
+  font-family:'IBM Plex Sans',Arial,system-ui,-apple-system,sans-serif;
   padding-left:max(0px, env(safe-area-inset-left, 0px));
   padding-right:max(0px, env(safe-area-inset-right, 0px));
 }
-.mono{font-family:'Geist Mono',ui-monospace,monospace;}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+.serif{font-family:'IBM Plex Serif',Georgia,'Times New Roman',serif;}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
 #root{height:100vh;}
 
@@ -159,7 +160,7 @@ function Hero(){
   return e('main', { className: 'relative z-10 flex-1 min-h-0 flex flex-col justify-center px-6 sm:px-12 py-6 overflow-y-auto' },
     e('div', { className: 'w-full max-w-[1600px] mx-auto' },
       e('h1', {
-        className: 'max-w-[900px] text-[clamp(2.6rem,7vw,6rem)] leading-[1.04] font-normal tracking-[-0.03em] text-[var(--fg)] text-balance',
+        className: 'serif max-w-[1100px] text-[clamp(2.6rem,7vw,6rem)] leading-[1.06] font-normal tracking-[-0.02em] text-[var(--fg)] text-balance',
       }, 'In Pursuit of Extraordinary Talent'.split(' ').flatMap((w, i, all) => [
         e('span', { key: i, className: 'word reveal', style: { '--d': `${1.6 + i * 0.08}s` } }, w),
         i < all.length - 1 ? ' ' : null,
