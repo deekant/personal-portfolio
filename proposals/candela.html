@@ -116,6 +116,25 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
 .btn svg{width:18px; height:18px;}
 .work .btn{margin-top:4px;}
 
+/* highlights */
+.stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,4vw,56px); margin:0 0 clamp(48px,6vw,80px);}
+.stat .big{font-family:var(--display); font-weight:500; text-transform:uppercase; line-height:.88; font-size:clamp(3.2rem,9vw,8.5rem); letter-spacing:0; white-space:nowrap;}
+.stat .big small{font-size:.45em; margin-left:.12em;}
+.stat.hot .big{color:var(--orange);}
+.stat p{margin:14px 0 0; color:var(--muted); font-size:15px; line-height:1.4;}
+.stat p b{color:var(--ink); font-weight:500; display:block; font-size:17px;}
+@media (max-width:600px){ .stats{grid-template-columns:1fr;} }
+
+.revs{background:var(--black); color:var(--on-black); margin-top:40px; padding:clamp(28px,4vw,48px); display:grid; grid-template-columns:1fr; gap:32px;}
+.revs-head{display:flex; align-items:flex-end; gap:20px;}
+.revs-head .n{font-family:var(--display); font-weight:500; font-size:clamp(6rem,11vw,10rem); line-height:.8; color:var(--orange);}
+.revs-head p{margin:0; font-size:20px; line-height:1.25; max-width:16ch; padding-bottom:6px;}
+.checks{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px 32px;}
+@media (max-width:600px){ .checks{grid-template-columns:1fr;} }
+.checks li{display:flex; flex-direction:column; gap:6px; font-size:17px; line-height:1.3;}
+.checks .k{font-family:var(--display); font-size:34px; line-height:1; color:var(--orange);}
+.checks li:not(:last-child){}
+
 /* scope ticks */
 .rows.scope li{grid-template-columns:52px 1fr;}
 
@@ -189,8 +208,9 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
     <div class="wrap two">
       <div>
         <h2 class="display">What's Included</h2>
-        <p class="lede">Everything in your scope summary is covered by the build price. Two rounds of revisions at each of four checkpoints: after the Homepage design, after all pages are designed, after the Homepage build, and after all pages are built.</p>
+        <p class="lede">Everything in your scope summary is covered by the build price.</p>
       </div>
+      <div>
       <ol class="rows scope">
         <li><span class="n">/01</span><p>CMS collections: Case Studies, Team, Client Logos, Vacancies, and Insights scaffolded for later</p></li>
         <li><span class="n">/02</span><p>Schema markup: Organization, Person, Article/case&nbsp;study</p></li>
@@ -198,6 +218,16 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
         <li><span class="n">/04</span><p>Page renames with 301 redirects</p></li>
         <li><span class="n">/05</span><p>30 days of post-launch bug fixes for anything that doesn't match the agreed design or behaviour</p></li>
       </ol>
+      <div class="revs">
+        <div class="revs-head"><span class="n">2</span><p>rounds of revisions at each checkpoint</p></div>
+        <ol class="checks">
+          <li><span class="k">01</span>After the Homepage design</li>
+          <li><span class="k">02</span>After all pages are designed</li>
+          <li><span class="k">03</span>After the Homepage build</li>
+          <li><span class="k">04</span>After all pages are built</li>
+        </ol>
+      </div>
+      </div>
     </div>
   </section>
 
@@ -221,12 +251,18 @@ a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
       <div class="gantt-intro">
         <h2 class="display">Timeline</h2>
         <div>
-          <p>How the work moves through your 10 templates. The Homepage comes first, since it carries the shared nav, footer and CTA band that every other page reuses. Then the remaining pages are designed and built in the same order. I can start on Monday 2 November, working UK hours: 1 week design, 2 weeks Webflow build, about 3 weeks in total, finishing around Friday 20 November.</p>
+          <p>How the work moves through your 10 templates. The Homepage comes first, since it carries the shared nav, footer and CTA band that every other page reuses. Then the remaining pages are designed and built in the same order. Working UK hours.</p>
           <div class="legend">
             <span><i style="background:var(--bar-design)"></i>Design, week 1</span>
             <span><i style="background:var(--bar-build)"></i>Webflow build, weeks 2–3</span>
           </div>
         </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat hot"><div class="big">2 Nov</div><p><b>Start date</b>Monday 2 November</p></div>
+        <div class="stat"><div class="big">1<small>+</small>2</div><p><b>Weeks</b>1 week design, then 2 weeks Webflow build</p></div>
+        <div class="stat"><div class="big">20 Nov</div><p><b>Around launch</b>Friday, about 3 weeks from start</p></div>
       </div>
 
       <div class="gantt-scroll">
