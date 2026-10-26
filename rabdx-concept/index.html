@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>RabDx Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Inter Tight stands in for the brand web font in this concept -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* layout concept: dark-mode sticky stage, particle antibody that turns into tissue cores and then two patient groups as you scroll; giant headline along the bottom */
+:root{
+  /* approximate brand colours, placeholders until the Brand Manual values */
+  --navy:#0A1430; --navy-2:#111E45; --horizon:#3E74D6; --sky:#7CC4F2; --teal:#2BD3BE;
+  --fg:#F2F6FC; --muted:#8C9BBD; --line:rgba(140,155,189,.22);
+  --ease:cubic-bezier(.16,1,.3,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+html,body{margin:0; background:var(--navy); color:var(--fg); font-family:'Inter Tight','Segoe UI',Arial,sans-serif;}
+:focus-visible{outline:2px solid var(--sky); outline-offset:3px;}
+.scroller{height:340vh;}
+.stage{position:sticky; top:0; height:100vh; min-height:620px; overflow:hidden;
+  background:radial-gradient(ellipse 70% 60% at 50% 38%, #13265A 0%, var(--navy) 62%);}
+canvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
+
+/* nav: square logo block, superscript labels, contact block */
+.nav{position:absolute; z-index:4; top:0; left:0; right:0; height:72px; display:flex; align-items:stretch; border-bottom:1px solid var(--line);}
+.brand{display:flex; align-items:center; gap:28px; padding-right:28px; text-decoration:none; color:var(--fg);}
+.brand .mark{width:72px; height:72px; border-right:1px solid var(--line); display:grid; place-items:center;}
+.brand .mark svg{width:34px; height:34px;}
+.brand .word{font-size:20px; letter-spacing:-.01em; white-space:nowrap;}
+.brand .word b{font-weight:600;}
+.links{display:flex; gap:40px; list-style:none; margin:0 0 0 clamp(20px,8vw,160px); padding:0; align-items:center;}
+.links a{color:var(--fg); text-decoration:none; display:flex; flex-direction:column; font-size:15px; line-height:1.2;}
+.links a:hover{color:var(--sky);}
+.contact{margin-left:auto; display:flex; align-items:center; gap:14px; padding:0 28px; background:var(--sky); color:var(--navy); text-decoration:none; font-weight:500; font-size:15px; transition:background .4s var(--ease);}
+.contact:hover{background:#A9DAF8;}
+.contact svg{width:16px; height:16px;}
+@media (max-width:900px){ .links{display:none;} }
+
+
+/* giant headline, swapped per scroll step */
+.heads{position:absolute; z-index:3; left:20px; right:20px; bottom:clamp(20px,3vh,40px); height:clamp(150px,22vw,330px);}
+.head{position:absolute; left:0; bottom:0; margin:0; font-weight:500; font-size:clamp(3rem,10.4vw,10.5rem); line-height:.92; letter-spacing:-.045em;}
+.head .l{display:block; overflow:hidden; padding-bottom:.16em; margin-bottom:-.16em;}
+.head .l > span{display:block; transform:translateY(115%); transition:transform 1.1s var(--ease);}
+.head .l:nth-child(2) > span{transition-delay:.08s;}
+.head.on .l > span{transform:none;}
+.head em{font-style:normal;}
+.side{position:absolute; z-index:3; right:24px; bottom:clamp(24px,3.4vh,44px); width:300px; font-size:16px; line-height:1.5; color:var(--fg);}
+.side p{margin:0; position:absolute; bottom:46px; left:0; right:0; opacity:0; transform:translateY(10px); transition:opacity .7s var(--ease), transform .7s var(--ease); text-wrap:pretty;}
+.side p.on{opacity:1; transform:none;}
+.side .prog{position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; gap:16px;}
+.side .count{font-size:13px; line-height:1; letter-spacing:.04em; color:var(--fg); font-variant-numeric:tabular-nums;}
+.side .bar{position:relative; flex:1; height:1px; background:rgba(255,255,255,.22);}
+.side .bar i{position:absolute; left:0; top:0; bottom:0; background:#fff; width:0;}
+@media (max-width:1100px){ .side{display:none;} }
+
+.tag{position:absolute; z-index:3; font-size:13px; color:var(--fg); padding:6px 10px; border:1px solid var(--line); background:rgba(10,20,48,.6); backdrop-filter:blur(6px); opacity:0; transform:translate(-50%,-50%); pointer-events:none; white-space:nowrap;}
+.tag i{display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:8px; vertical-align:1px;}
+
+.intro{opacity:0; animation:in 1.2s var(--ease) forwards; animation-delay:var(--d,0s);}
+@keyframes in{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+@media (prefers-reduced-motion: reduce){
+  .scroller{height:100vh;}
+  .intro{animation:none; opacity:1;}
+  .head .l > span, .side p{transition:none;}
+}
+</style>
+</head>
+<body>
+<div class="scroller">
+<section class="stage" aria-label="RabDx homepage concept">
+  <canvas id="c" aria-hidden="true"></canvas>
+
+  <header class="nav intro" style="--d:.2s">
+    <a class="brand" href="#" aria-label="Rab Diagnostics home">
+      <span class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M20 4v9" stroke="#2BD3BE" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="24" r="11" stroke="#F2F6FC" stroke-width="2.4"/><path d="M9 24a11 11 0 0 0 22 0Z" fill="#2BD3BE"/><circle cx="25.5" cy="18" r="1.8" fill="#7CC4F2"/></svg></span>
+      <span class="word"><b>Rab</b> Diagnostics</span>
+    </a>
+    <ul class="links">
+      <li><a href="#">Science</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Company</a></li>
+    </ul>
+    <a class="contact" href="#">Discuss your program <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  </header>
+
+
+  <div class="heads">
+    <h1 class="head on"><span class="l"><span>The right ADC</span></span><span class="l"><span>The right <em>patient</em></span></span></h1>
+    <p class="head" aria-hidden="true"><span class="l"><span>Biomarkers inside</span></span><span class="l"><span>the <em>cell</em></span></span></p>
+    <p class="head" aria-hidden="true"><span class="l"><span>Who responds,</span></span><span class="l"><span>known <em>first</em></span></span></p>
+  </div>
+
+  <div class="side">
+    <p class="on">An antibody drug conjugate only works once the cell takes it in. We measure what decides that.</p>
+    <p>Rab-GTPase expression, quantified across tissue, predicts ADC response in patients.</p>
+    <p>Stratify trial patients before the first dose, and reduce risk and cost in ADC development.</p>
+    <div class="prog"><span class="count">01 / 03</span><span class="bar"><i></i></span></div>
+  </div>
+
+  <div class="tag" id="tagA"><i style="background:#3A5590"></i>Unlikely to respond</div>
+  <div class="tag" id="tagB"><i style="background:#2BD3BE"></i>Likely responders</div>
+</section>
+</div>
+
+<script>
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const N = innerWidth < 700 ? 2000 : 5200;
+const rnd = (() => { let s = 7; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
+const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const COL = { heavy:hex('#4F86E0'), light:hex('#8CCBF5'), pay:hex('#2BD3BE'), link:hex('#9B8CF0'), pos:hex('#2BD3BE'), neg:hex('#3A5590') };
+
+// antibody: chains of beads along a Y (same proportions as the RabDx render), plus payload clusters
+const beads = [];
+const chain = (x0, y0, x1, y1, n, r, z, col) => {
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    beads.push({ x:x0 + (x1 - x0) * t + Math.sin(i * 1.7) * 3, y:y0 + (y1 - y0) * t + Math.cos(i * 1.3) * 3, z, r, col });
+  }
+};
+chain(486, 640, 486, 450, 9, 15, -10, 'heavy'); chain(514, 640, 514, 450, 9, 15, 10, 'heavy');
+chain(486, 450, 380, 300, 8, 15, -6, 'heavy'); chain(514, 450, 620, 300, 8, 15, 6, 'heavy');
+chain(452, 455, 348, 318, 7, 14, 18, 'light'); chain(548, 455, 652, 318, 7, 14, 18, 'light');
+chain(380, 300, 330, 220, 4, 14, -6, 'heavy'); chain(620, 300, 670, 220, 4, 14, 6, 'heavy');
+chain(348, 318, 298, 238, 4, 13, 18, 'light'); chain(652, 318, 702, 238, 4, 13, 18, 'light');
+[[372, 420], [628, 420], [410, 560], [590, 560]].forEach(([x, y]) =>
+  [[0,0,11],[13,-6,9],[11,10,9],[-11,8,8],[-4,-12,8],[2,4,6]].forEach(([dx, dy, r]) => beads.push({ x:x + dx, y:y + dy, z:0, r, col:'pay' })));
+// linkers as thin bead lines
+[[440,400,372,420],[560,400,628,420],[470,530,410,560],[530,530,590,560]].forEach(([a, b, c, d]) => {
+  for (let i = 1; i < 6; i++) { const t = i / 6; beads.push({ x:a + (c - a) * t, y:b + (d - b) * t - Math.sin(t * Math.PI) * 10, z:0, r:2.5, col:'link' }); }
+});
+const area = beads.map(b => b.r * b.r), total = area.reduce((a, b) => a + b, 0);
+
+// tissue cores (state 2) and two patient groups (state 3)
+const COLS = 14, ROWS = 7, CORES = COLS * ROWS;
+const positive = Array.from({ length:CORES }, (_, c) => (Math.sin(c * 12.9898) * 43758.5453 % 1 + 1) % 1 < .36);
+const nPos = positive.filter(Boolean).length;
+// cluster radii follow group size
+const RATIO = Math.sqrt(nPos / (CORES - nPos));
+
+const P = [];
+let bi = 0, acc = 0;
+for (let i = 0; i < N; i++) {
+  // pick a bead weighted by surface, walking the list
+  const target = (i + .5) / N * total;
+  while (acc + area[bi] < target && bi < beads.length - 1) { acc += area[bi]; bi++; }
+  const b = beads[bi];
+  const u = rnd() * 2 - 1, th = rnd() * Math.PI * 2, s = Math.sqrt(1 - u * u), rr = b.r * (.82 + rnd() * .22);
+  const ax = (b.x - 500 + Math.cos(th) * s * rr) / 260, ay = (b.y - 440 + Math.sin(th) * s * rr) / 260, az = (b.z + u * rr) / 260;
+
+  const c = i % CORES, cx = c % COLS, cy = Math.floor(c / COLS);
+  const ang = rnd() * Math.PI * 2, rad = Math.sqrt(rnd());
+  const gc = cx, gr0 = cy, gdx = Math.cos(ang) * rad, gdy = Math.sin(ang) * rad;
+
+  const pos = positive[c];
+  const ga = rnd() * Math.PI * 2, gr = Math.sqrt(rnd());
+  const kdx = Math.cos(ga) * gr, kdy = Math.sin(ga) * gr;
+
+  P.push({ ax, ay, az, gc, gr0, gdx, gdy, kdx, kdy, pos, ca:COL[b.col], cg:pos ? COL.pos : COL.neg, ph:rnd() * 6.28, sz:.7 + rnd() * 1.1,
+    k:.4 + rnd() * .9, sw:rnd() - .5, ox:0, oy:0, vx:0, vy:0 });
+}
+
+let W, H, DPR, mx = -9999, my = -9999;
+const resize = () => {
+  DPR = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+};
+resize(); addEventListener('resize', resize);
+addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; });
+addEventListener('pointerleave', () => { mx = my = -9999; });
+// smoothed cursor and its velocity, so particles react to movement, not just position
+let smx = -9999, smy = -9999, mvx = 0, mvy = 0;
+
+const clamp = v => Math.min(1, Math.max(0, v));
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const heads = document.querySelectorAll('.head'), sides = document.querySelectorAll('.side p');
+const count = document.querySelector('.side .count'), barI = document.querySelector('.side .bar i');
+// drop the intro class once it has played, so scroll can drive opacity
+document.querySelectorAll('.intro').forEach(n => n.addEventListener('animationend', () => n.classList.remove('intro'), { once:true }));
+const tagA = document.getElementById('tagA'), tagB = document.getElementById('tagB');
+let step = 0, rot = 0, assemble = reduce ? 1 : 0, last = performance.now();
+
+const frame = now => {
+  const dt = Math.min(50, now - last) / 1000; last = now;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const s = reduce || max <= 0 ? 0 : scrollY / max;
+  const t1 = ease(clamp((s - .12) / .3)), t2 = ease(clamp((s - .58) / .3));
+  if (!reduce) { rot = Math.sin(now / 1000 * .32) * .5; assemble = Math.min(1, assemble + dt * .45); }
+  const intro = ease(assemble);
+
+  // copy follows the scroll step
+  const k = s < .4 ? 0 : s < .75 ? 1 : 2;
+  if (k !== step) {
+    heads.forEach((h, i) => h.classList.toggle('on', i === k));
+    sides.forEach((p, i) => p.classList.toggle('on', i === k));
+    count.textContent = `0${k + 1} / 03`; step = k;
+  }
+  barI.style.width = (s * 100).toFixed(1) + '%';
+
+  const mobile = W < 900;
+  // the molecule sits right of centre; the grid and groups move to the middle
+  // every state fills the screen below the nav: molecule top to bottom, then the core grid, then two groups
+  const ox = W * .5, scale = Math.min(W, H) * (mobile ? .5 : .56);
+  const oy = mobile ? H * .5 : 86 + .85 * scale;
+  const top = 72 + (mobile ? 40 : 56), bot = H - (mobile ? 40 : 56);
+  // the core grid keeps an inner padding but still runs behind the headline
+  const gl = W * (mobile ? .08 : .11), gt = 72 + H * .1, gb = H * .9;
+  const cellX = (W - 2 * gl) / (COLS - 1), cellY = (gb - gt) / (ROWS - 1), coreR = Math.min(cellX, cellY) * .36;
+  const midY = (top + bot) / 2, rN = Math.min((bot - top) / 2, W * .23), rP = rN * RATIO;
+  const cxN = W * .27, cxP = W * .73;
+  const cr = Math.cos(rot), sr = Math.sin(rot);
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'lighter';
+  const time = now / 1000;
+  if (mx < -999) { smx = smy = -9999; mvx = mvy = 0; }
+  else if (smx < -999) { smx = mx; smy = my; }
+  else { const nx = smx + (mx - smx) * .18, ny = smy + (my - smy) * .18; mvx = mvx * .8 + (nx - smx) * .2; mvy = mvy * .8 + (ny - smy) * .2; smx = nx; smy = ny; }
+  const R = 150;
+  for (const p of P) {
+    // antibody rotates around its vertical axis; before the intro finishes, points come in from a loose cloud
+    let x = p.ax * cr + p.az * sr, z = -p.ax * sr + p.az * cr, y = p.ay;
+    const spread = 1 - intro;
+    x += Math.cos(p.ph * 3) * spread * 1.4; y += Math.sin(p.ph * 5) * spread * 1.1;
+    x += Math.sin(time * .9 + p.ph) * .004; y += Math.cos(time * .7 + p.ph) * .004;
+    const f0 = 1 / (1 + z * .22);
+    const ax = ox + x * scale * f0, ay = oy + y * scale * f0;
+    const gx = gl + p.gc * cellX + p.gdx * coreR, gy = gt + p.gr0 * cellY + p.gdy * coreR;
+    const kx = (p.pos ? cxP : cxN) + p.kdx * (p.pos ? rP : rN), ky = midY + p.kdy * (p.pos ? rP : rN);
+    let sx = ax + (gx - ax) * t1, sy = ay + (gy - ay) * t1;
+    sx += (kx - sx) * t2; sy += (ky - sy) * t2;
+    sx += Math.sin(time * .9 + p.ph) * 1.6 * t1; sy += Math.cos(time * .7 + p.ph) * 1.6 * t1;
+    z *= 1 - t1; const f = 1 / (1 + z * .22);
+    // cursor field: soft push, a swirl that differs per particle, and a drag along the cursor's motion; springs bring each particle home
+    const dx = sx + p.ox - smx, dy = sy + p.oy - smy, d = Math.hypot(dx, dy);
+    if (d < R && d > .1) {
+      const w = (1 - d / R) ** 2, ux = dx / d, uy = dy / d;
+      p.vx += (ux * 2.4 * p.k - uy * 3.2 * p.sw) * w + mvx * .16 * w * p.k;
+      p.vy += (uy * 2.4 * p.k + ux * 3.2 * p.sw) * w + mvy * .16 * w * p.k;
+    }
+    p.vx = (p.vx - p.ox * .035) * .9; p.vy = (p.vy - p.oy * .035) * .9;
+    p.ox += p.vx; p.oy += p.vy;
+    sx += p.ox; sy += p.oy;
+
+    const c0 = p.ca, c1 = p.cg, m = t1;
+    const r = c0[0] + (c1[0] - c0[0]) * m, g = c0[1] + (c1[1] - c0[1]) * m, b = c0[2] + (c1[2] - c0[2]) * m;
+    const a = (.35 + .45 * (1 - z) * (1 - t1) + .5 * t1) * (.4 + .6 * intro);
+    ctx.fillStyle = `rgba(${r | 0},${g | 0},${b | 0},${Math.min(.95, a).toFixed(2)})`;
+    ctx.beginPath(); ctx.arc(sx, sy, p.sz * f * (mobile ? 1.1 : 1.45), 0, 6.283); ctx.fill();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+
+  // group labels sit above the two clusters
+  const show = t2.toFixed(2);
+  tagA.style.opacity = tagB.style.opacity = show;
+  tagA.style.left = cxN + 'px'; tagB.style.left = cxP + 'px';
+  tagA.style.top = tagB.style.top = midY + 'px';
+
+  if (!reduce) requestAnimationFrame(frame);
+};
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>RabDx Proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* layout: kantalinsky.com language — black hero band, white two-column sections (Druk heading left, hairline rows right), black closing band */
+@font-face{font-family:'K Font'; src:url('fonts/Druk-Medium.otf') format('opentype'); font-weight:500; font-style:normal; font-display:swap;}
+@font-face{font-family:'Inter Display'; src:url('fonts/InterDisplay.var.ttf') format('truetype-variations'); font-weight:100 900; font-style:normal; font-display:swap;}
+:root{
+  --bg:#FFFFFF; --ink:#1A1A1A; --muted:#767676; --line:#E6E6E6;
+  --black:#000000; --on-black:#FFFFFF; --on-black-muted:#A3A3A3;
+  --red:#F9452D; --orange:#F9452D; --ease:cubic-bezier(.22,1,.36,1); --bar-design:#1A1A1A; --bar-build:#F9452D;
+  --display:'K Font','Arial Narrow',Impact,sans-serif;
+  --body:'Inter Display',Arial,sans-serif;
+  --gutter:max(16px, env(safe-area-inset-left, 0px));
+  color-scheme: light;
+}
+*{box-sizing:border-box;}
+html{background:var(--black);}
+body{margin:0; overflow-x:clip; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.5;}
+p, li, blockquote, .lede, .note{text-wrap:pretty;}
+a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
+:focus-visible{outline:2px solid var(--red); outline-offset:3px;}
+.wrap{max-width:1600px; margin:0 auto; padding-left:max(20px, env(safe-area-inset-left, 0px)); padding-right:max(20px, env(safe-area-inset-right, 0px));}
+@media (min-width:768px){ .wrap{padding-left:max(40px, env(safe-area-inset-left, 0px)); padding-right:max(40px, env(safe-area-inset-right, 0px));} }
+
+.display{font-family:var(--display); font-weight:500; text-transform:uppercase; line-height:.9; letter-spacing:0; margin:0;}
+
+/* nav */
+.nav{position:absolute; top:0; left:0; right:0; z-index:5; color:var(--on-black);}
+.nav .wrap{display:flex; align-items:center; justify-content:center; height:96px;}
+.lockup{display:flex; align-items:center; gap:clamp(14px,2vw,22px);}
+.lockup svg, .lockup img{height:34px; width:auto; display:block;}
+.lockup .x{font-size:20px; line-height:1; color:var(--on-black-muted); font-weight:300;}
+
+/* hero */
+.hero{background:var(--black); color:var(--on-black); position:relative; overflow:hidden; box-shadow:-2px 0 0 var(--black), 2px 0 0 var(--black);}
+.hero .wrap{padding-top:clamp(120px,13vw,170px); padding-bottom:clamp(40px,5vw,64px); display:flex; flex-direction:column; align-items:center; gap:clamp(24px,3vw,40px);}
+.hero h1{font-size:clamp(3.4rem,10.5vw,8.5rem); text-align:center; text-wrap:balance;}
+.hero-sub{margin:0; max-width:none; white-space:nowrap; text-align:center; font-size:clamp(16px,1.3vw,19px); line-height:1.5;}
+.hero-sub b{font-weight:500;}
+.talk{width:min(100%,300px); margin-top:8px;}
+.talk a{border:1px solid var(--on-black);}
+@media (max-width:600px){ .hero-sub{white-space:normal; text-wrap:balance;} }
+.talk a::after{content:""; width:7px; height:7px; background:var(--red); position:relative; z-index:1; transition:background .45s var(--ease);}
+.talk a:hover::after{background:var(--ink);}
+
+/* buttons: orange fill slides up on hover */
+.talk a, .btn{
+  position:relative; overflow:hidden; isolation:isolate;
+  display:flex; justify-content:space-between; align-items:center;
+  background:var(--black); color:var(--on-black); text-decoration:none; font-size:17px;
+  transition:color .45s var(--ease);
+}
+.talk a{padding:16px;}
+.btn{margin-top:auto; padding:20px 24px;}
+.talk a::before, .btn::before{
+  content:""; position:absolute; inset:0; z-index:0; background:var(--orange);
+  transform:translateY(101%); transition:transform .55s var(--ease);
+}
+.talk a:hover::before, .btn:hover::before, .talk a:focus-visible::before, .btn:focus-visible::before{transform:translateY(0);}
+.talk a:hover, .btn:hover, .talk a:focus-visible, .btn:focus-visible{color:var(--on-black);}
+.btn > *, .talk a > *{position:relative; z-index:1;}
+.btn svg{transition:transform .45s var(--ease);}
+.btn:hover svg{transform:translate(4px,0);}
+@media (prefers-reduced-motion: reduce){ .talk a::before, .btn::before, .btn svg, a{transition:none;} }
+
+/* sections */
+.sec{padding-block:clamp(72px,10vw,140px);}
+.two{display:grid; grid-template-columns:1fr; gap:40px;}
+@media (min-width:1000px){ .two{grid-template-columns:minmax(0,4fr) minmax(0,6fr); gap:40px;} }
+.two > *{min-width:0;}
+.sec h2{font-size:clamp(3.5rem,7vw,6rem);}
+.sec h2 sup{font-family:var(--body); font-size:16px; text-transform:none; vertical-align:top; position:relative; top:.4em; margin-left:8px; color:var(--ink);}
+.lede{margin:24px 0 0; max-width:340px; color:var(--ink); font-size:16px;}
+
+.rows{list-style:none; margin:0; padding:0; border-top:1px solid var(--line);}
+.rows li{display:grid; grid-template-columns:52px 1fr; gap:8px; padding:26px 0; border-bottom:1px solid var(--line); font-size:18px; line-height:1.5;}
+.rows .n{color:var(--muted); font-size:14px; padding-top:4px;}
+.rows p{margin:0; max-width:64ch;}
+
+/* pricing */
+.price-table{width:100%; border-collapse:collapse; border-top:1px solid var(--line);}
+.price-table th{font-weight:400; color:var(--muted); font-size:14px; text-align:left; padding:16px 16px 16px 0;}
+.price-table td{border-top:1px solid var(--line); padding:26px 16px 26px 0; vertical-align:top; font-size:18px;}
+.price-table td small{display:block; color:var(--muted); font-size:14px; margin-top:4px;}
+.price-table .wk{white-space:nowrap; color:var(--muted); font-size:16px;}
+.price-table tr.sum td{border-top:1px solid var(--ink);}
+.price-table .amt{font-family:var(--display); font-size:clamp(2.4rem,4vw,3.5rem); line-height:1; font-variant-numeric:tabular-nums; white-space:nowrap;}
+.table-scroll{overflow-x:auto;}
+.note{margin:20px 0 0; color:var(--muted); font-size:14px; max-width:64ch;}
+
+/* timeline */
+.gantt-intro{display:grid; grid-template-columns:1fr; gap:40px; margin-bottom:56px;}
+@media (min-width:1000px){ .gantt-intro{grid-template-columns:minmax(0,4fr) minmax(0,6fr);} }
+.gantt-intro p{margin:0; font-size:18px; max-width:64ch;}
+.legend{display:flex; gap:28px; margin-top:32px; font-size:14px; color:var(--muted); flex-wrap:wrap;}
+.legend span{display:inline-flex; align-items:center; gap:8px;}
+.legend i{width:12px; height:12px; display:inline-block;}
+.gantt-scroll{overflow-x:auto;}
+.gantt{min-width:860px;}
+.g-row{display:grid; grid-template-columns:minmax(200px,4fr) minmax(0,6fr); align-items:center; min-height:52px; border-bottom:1px solid var(--line);}
+.g-row.head{min-height:40px; color:var(--muted); font-size:14px; border-bottom:1px solid var(--ink);}
+.g-weeks{display:grid; grid-template-columns:repeat(6,1fr);}
+.g-weeks span{padding-left:8px; border-left:1px solid var(--line);}
+.g-label{font-size:17px; padding-right:16px;}
+.g-label .n{color:var(--muted); font-size:14px; margin-right:14px;}
+.g-track{position:relative; height:52px; background:
+  linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / calc(100% / 6) 100%;}
+.bar{position:absolute; top:19px; height:14px;}
+.bar.d{background:var(--bar-design);}
+.bar.b{background:var(--bar-build);}
+.bar.f{background:#fff; border:1.5px solid var(--ink); box-sizing:border-box;}
+.bar.s{background:repeating-linear-gradient(135deg,#D9D9D9 0 4px,#F2F2F2 4px 8px);}
+.g-row.milestone .g-label{font-family:var(--display); font-size:28px; text-transform:uppercase; line-height:1;}
+.g-row.milestone .bar{top:14px; height:24px; color:#fff; font-size:13px; display:flex; align-items:center; padding-left:10px; white-space:nowrap;}
+
+/* examples */
+.works{display:flex; flex-direction:column; gap:clamp(40px,5vw,64px); max-width:520px;}
+.work{display:flex; flex-direction:column; gap:14px; min-width:0;}
+.work img{display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; background:#111;}
+.work h3{font-size:clamp(2rem,2.8vw,2.8rem);}
+.work p{margin:0; font-size:16px; max-width:56ch;}
+.btn svg{width:18px; height:18px;}
+.work .shot{display:block;}
+.work .btn{margin-top:2px; padding:14px 18px; font-size:16px;}
+
+/* highlights */
+.stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px 28px; margin:56px 0 0;}
+.stat .big{font-family:var(--display); font-weight:500; text-transform:uppercase; line-height:.9; font-size:clamp(2.2rem,3.4vw,3.2rem); letter-spacing:0; white-space:nowrap;}
+.stat .big small{font-size:.45em; margin-left:.12em;}
+.stat.hot .big{color:var(--orange);}
+.stat p{margin:10px 0 0; color:var(--muted); font-size:14px; line-height:1.35;}
+.stat p b{color:var(--ink); font-weight:500; display:block; font-size:15px;}
+@media (max-width:600px){ .stats{grid-template-columns:1fr;} }
+
+.revs{background:#F2F2F2; color:var(--ink); margin-top:40px; padding:clamp(28px,4vw,48px); display:grid; grid-template-columns:1fr; gap:36px; align-items:center;}
+@media (min-width:760px){ .revs{grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:40px;} }
+.revs-head{display:flex; flex-direction:column; gap:14px;}
+.revs-head .n{font-family:var(--display); font-weight:500; font-size:clamp(6rem,11vw,10rem); line-height:.8; color:var(--ink);}
+.revs-head p{margin:0; font-size:20px; line-height:1.25; max-width:16ch;}
+.checks{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+.checks{gap:18px;}
+.checks li{display:grid; grid-template-columns:56px 1fr; align-items:center; gap:8px; font-size:17px; line-height:1.3;}
+.checks .t{text-wrap:balance;}
+.checks .k{font-family:var(--display); font-size:30px; line-height:1; color:var(--ink);}
+
+/* scope ticks */
+.rows.scope li{grid-template-columns:52px 1fr;}
+
+</style></head><body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="lockup">
+      <a href="https://kantalinsky.com/" aria-label="Dima Kantalinsky home">
+        <svg viewBox="0 0 350 250" fill="currentColor" aria-hidden="true"><path d="M200 150H300V250H200V150Z"/><path d="M350 0L100 250H0V100L100 0v109.136L208.895 0H350z"/></svg>
+      </a>
+      <span class="x" aria-hidden="true">×</span>
+      <img src="fonts/rabdx-white.png" alt="Rab Diagnostics">
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 class="display">Redesign and<br>Webflow Development</h1>
+    <p class="hero-sub">Web design system, Figma pages and a CMS-driven Webflow build<br>for <b>Rab Diagnostics</b></p>
+  </div>
+</section>
+
+<main>
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Approach</h2>
+        <p class="lede">One person from design system to launch, so nothing is lost between design and build.</p>
+      </div>
+      <div>
+      <ol class="rows ">
+        <li><span class="n">/01</span><p>I design and build myself. The Figma component that gets approved in Phase 1 is the same one I wire up in Webflow, so there is no handover gap and no drift between design and site.</p></li>
+        <li><span class="n">/02</span><p>Phase 1 extends your Brand Manual only where it is silent: pixel type scale, spacing, buttons, forms, cards, icons and the data-visualisation palette. Colors, ratios, logo rules and tone stay as written. Every text and background pair is checked against WCAG AA.</p></li>
+        <li><span class="n">/03</span><p>Your team is tested on one thing: adding a webinar, paper or poster without touching layout. The CMS and components are built around that.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Pricing</h2>
+        <p class="lede">Four fixed prices, one per Upwork milestone.</p>
+      </div>
+      <div>
+      <div class="table-scroll">
+          <table class="price-table">
+            <thead><tr><th>Phase</th><th>Weeks</th><th>Fixed price</th></tr></thead>
+            <tbody>
+              <tr><td>1 · Web design system<small>Round 1 feedback 11–13 Nov, round 2 on 17 Nov</small></td><td class="wk">1.5</td><td class="amt">$600</td></tr>
+              <tr><td>2 · Page design<small>Group A: 17–19 Nov, 23 Nov. Group B: 24–26 Nov, 30 Nov</small></td><td class="wk">2.5</td><td class="amt">$2,400</td></tr>
+              <tr><td>3 · Webflow build on staging<small>Round 1 feedback 1–3 Dec, round 2 on 4 Dec</small></td><td class="wk">2.5</td><td class="amt">$3,000</td></tr>
+              <tr><td>4 · Launch and handover<small>Go-live review on 7 Dec, then 30 days of bug fixes</small></td><td class="wk">0.5</td><td class="amt">$500</td></tr>
+              <tr><td>Optional · Webflow Agent Instructions<small>Quoted separately</small></td><td class="wk">–</td><td class="amt">$300</td></tr>
+              <tr class="sum"><td>Total<small>Start Mon 9 Nov 2026 · Launch Mon 7 Dec · Safe date Mon 14 Dec</small></td><td class="wk"></td><td class="amt">$6,500</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Extra feedback rounds are $50 per hour.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Assumptions</h2>
+        <p class="lede">What the dates rely on.</p>
+      </div>
+      <div>
+      <ol class="rows ">
+        <li><span class="n">/01</span><p>Feedback within 3 business days on round 1 of every review. Round 2 is a short confirmation round of 1 business day.</p></li>
+        <li><span class="n">/02</span><p>All copy, images, papers, posters and recordings by 20 Nov. HubSpot, Webflow and Search Console access by 16 Nov.</p></li>
+        <li><span class="n">/03</span><p>Phase 1 signed off by 17 Nov, so Phases 2 and 3 can build on it.</p></li>
+        <li><span class="n">/04</span><p>Page designs are reviewed in two groups. A: homepage, services, science, about, contact and the other core pages. B: blog, webinar, paper and poster templates, the gated flow and the prototype.</p></li>
+        <li><span class="n">/05</span><p>Two rounds per checkpoint: design system, group A, group B and staging with real content.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="gantt-intro">
+        <h2 class="display">Timeline</h2>
+        <div>
+          <p>The phases overlap on purpose: page designs start while the design system is in review, and the Webflow setup starts once Phase 1 is signed off. 7 December has no slack. If a review runs long or content arrives late, launch moves to <b>Monday 14 December</b>.</p>
+          <p style="margin-top:20px">To hold 7 December I need content by 20 Nov and round 2 answers within 1 business day. I work 30 hours a week, about 40 from 16 Nov, in Central European Time, and can work weekends when needed.</p>
+          <div class="stats">
+            <div class="stat hot"><div class="big">9 Nov</div><p><b>Start date</b></p></div>
+            <div class="stat"><div class="big">7 Dec</div><p><b>Launch</b></p></div>
+            <div class="stat"><div class="big">14 Dec</div><p><b>Safe date</b></p></div>
+          </div>
+          <div class="legend">
+            <span><i style="background:var(--bar-design)"></i>Design and review</span>
+            <span><i style="background:var(--bar-build)"></i>Webflow build and launch</span>
+            <span><i style="background:#fff; border:1.5px solid var(--ink); box-sizing:border-box"></i>Your feedback: 3 days in round 1, 1 day in round 2</span>
+            <span><i style="background:repeating-linear-gradient(135deg,#D9D9D9 0 2px,#F2F2F2 2px 4px)"></i>Spare time before 14 Dec</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gantt-scroll">
+        <div class="gantt">
+          <div class="g-row head"><div></div><div class="g-weeks"><span>9 Nov</span><span>16 Nov</span><span>23 Nov</span><span>30 Nov</span><span>7 Dec</span><span>14 Dec</span></div></div>
+          <div class="g-row milestone"><div class="g-label">Design</div><div class="g-track"><div class="bar d" style="left:0%; width:52.4%">Phases 1–2</div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/01</span>Web design system, Phase 1</div><div class="g-track"><div class="bar d" style="left:0%; width:4.8%"></div><div class="bar f" style="left:4.8%; width:7.1%"></div><div class="bar d" style="left:11.9%; width:7.1%"></div><div class="bar f" style="left:19.0%; width:2.4%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/02</span>Core pages, group A</div><div class="g-track"><div class="bar d" style="left:4.8%; width:14.3%"></div><div class="bar f" style="left:19.0%; width:7.1%"></div><div class="bar d" style="left:26.1%; width:9.6%"></div><div class="bar f" style="left:35.7%; width:2.4%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/03</span>Templates and gated flow, group B</div><div class="g-track"><div class="bar d" style="left:19.0%; width:16.7%"></div><div class="bar f" style="left:35.7%; width:7.1%"></div><div class="bar d" style="left:42.8%; width:7.2%"></div><div class="bar f" style="left:50.0%; width:2.4%"></div></div></div>
+          <div class="g-row milestone"><div class="g-label">Webflow Build</div><div class="g-track"><div class="bar b" style="left:19.0%; width:50.0%">Phases 3–4</div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/04</span>Setup: classes, CMS, components</div><div class="g-track"><div class="bar b" style="left:19.0%; width:33.3%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/05</span>Pages and templates</div><div class="g-track"><div class="bar b" style="left:35.7%; width:16.7%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/06</span>Staging review and fixes</div><div class="g-track"><div class="bar f" style="left:52.4%; width:7.1%"></div><div class="bar b" style="left:59.5%; width:1.2%"></div><div class="bar f" style="left:60.7%; width:2.4%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/07</span>Launch, redirects, Search Console, handover</div><div class="g-track"><div class="bar b" style="left:59.5%; width:9.5%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/08</span>Spare time</div><div class="g-track"><div class="bar s" style="left:69.0%; width:16.7%"></div></div></div>
+        </div>
+      </div>
+      <p class="note">The 30 days of bug fixes run from launch, after the last bar above.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Homepage <br>Concept</h2>
+        <p class="lede">A first look at how a RabDx homepage hero could feel.</p>
+      </div>
+      <div class="works">
+        <article class="work">
+          <a class="shot" href="https://www.kantalinsky.com/rabdx-concept/" target="_blank" rel="noopener" aria-label="Open the RabDx homepage concept"><img src="previews/rabdx-concept.jpg" alt="Preview of the RabDx homepage concept" loading="lazy"></a>
+          <h3 class="display">RabDx Concept</h3>
+          <p>A particle antibody with its drug payloads that breaks into tissue cores, then into two patient groups, as you scroll. Colours and the one-line logo are proposals.</p>
+          <a class="btn" href="https://www.kantalinsky.com/rabdx-concept/" target="_blank" rel="noopener"><span>View Concept</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Closest <br>Examples</h2>
+        <p class="lede">Designed and built by me, end to end, including third-party integrations. None are life science. These are the closest B2B, trust-led, content-heavy sites.</p>
+      </div>
+      <div>
+      <div class="works">
+        <article class="work">
+          <img src="previews/sc.jpg" alt="Security Consultants website preview" loading="lazy">
+          <h3 class="display">Security Consultants</h3>
+          <p>ISO 27001 / SOC 2 certification consultancy for B2B SaaS clients worldwide. Closest in tone: restrained and trust-led.</p>
+          <a class="btn" href="https://securityconsultants.webflow.io" target="_blank" rel="noopener"><span>View Website</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <article class="work">
+          <img src="previews/dcg.jpg" alt="Digital Currency Group website preview" loading="lazy">
+          <h3 class="display">Digital Currency Group</h3>
+          <p>Institutional crypto investment platform with complex portfolio filtering across 200+ companies. Closest on CMS depth.</p>
+          <a class="btn" href="https://currency-group.webflow.io" target="_blank" rel="noopener"><span>View Website</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <article class="work">
+          <img src="previews/mn.jpg" alt="Midnight AM website preview" loading="lazy">
+          <h3 class="display">Midnight AM</h3>
+          <p>Creative concept site for a NY branding agency. Shows the editorial and motion range.</p>
+          <a class="btn" href="https://midnight-am.webflow.io" target="_blank" rel="noopener"><span>View Website</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">CMS <br>Structure</h2>
+        <p class="lede">Built so your team adds content without touching layout.</p>
+      </div>
+      <div>
+      <ol class="rows ">
+        <li><span class="n">/01</span><p><b>Collections:</b> Webinars, Papers, Posters, Blog, Authors and Topics.</p></li>
+        <li><span class="n">/02</span><p><b>Shared fields on every item:</b> title, slug, summary, topics, authors, date, and required SEO title, SEO description and OG image.</p></li>
+        <li><span class="n">/03</span><p><b>Per type:</b> webinars have speakers, date and recording. Papers have journal, DOI and PDF. Posters have conference and PDF.</p></li>
+        <li><span class="n">/04</span><p><b>Gating:</b> every asset has a public, indexable summary page. One reusable HubSpot form per content type sits in front of the file, using the official HubSpot app for Webflow.</p></li>
+        <li><span class="n">/05</span><p><b>Tracking:</b> a hidden field records which asset was requested, taken from the item slug, so each submission in HubSpot shows the asset.</p></li>
+        <li><span class="n">/06</span><p><b>Editing:</b> editors fill CMS fields and nothing else. Layout lives in components.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Class <br>System</h2>
+        <p class="lede">Client-First by Finsweet.</p>
+      </div>
+      <div>
+      <ol class="rows ">
+        <li><span class="n">/01</span><p>It is documented and widely used, so your team or any future developer can look up how things are named instead of reverse-engineering my choices.</p></li>
+        <li><span class="n">/02</span><p>It keeps classes consistent across 16 pages and 6 collections, which matters most when real content goes in.</p></li>
+        <li><span class="n">/03</span><p>It pairs well with reusable components, so a change in one place updates every page. That is what makes the add-a-webinar test pass.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body></html>
