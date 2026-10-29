@@ -1,0 +1,406 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>Bethesda Systems Proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* layout: kantalinsky.com language — black hero band, white two-column sections (Druk heading left, hairline rows right), black closing band */
+@font-face{font-family:'K Font'; src:url('fonts/Druk-Medium.otf') format('opentype'); font-weight:500; font-style:normal; font-display:swap;}
+@font-face{font-family:'Inter Display'; src:url('fonts/InterDisplay.var.ttf') format('truetype-variations'); font-weight:100 900; font-style:normal; font-display:swap;}
+:root{
+  --bg:#FFFFFF; --ink:#1A1A1A; --muted:#767676; --line:#E6E6E6;
+  --black:#000000; --on-black:#FFFFFF; --on-black-muted:#A3A3A3;
+  --red:#F9452D; --orange:#F9452D; --ease:cubic-bezier(.22,1,.36,1); --bar-design:#1A1A1A; --bar-build:#F9452D;
+  --display:'K Font','Arial Narrow',Impact,sans-serif;
+  --body:'Inter Display',Arial,sans-serif;
+  --gutter:max(16px, env(safe-area-inset-left, 0px));
+  color-scheme: light;
+}
+*{box-sizing:border-box;}
+html{background:var(--black);}
+body{margin:0; overflow-x:clip; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.5;}
+p, li, blockquote, .lede, .note{text-wrap:pretty;}
+a{color:inherit; transition:color .35s var(--ease), opacity .35s var(--ease);}
+:focus-visible{outline:2px solid var(--red); outline-offset:3px;}
+.wrap{max-width:1600px; margin:0 auto; padding-left:max(20px, env(safe-area-inset-left, 0px)); padding-right:max(20px, env(safe-area-inset-right, 0px));}
+@media (min-width:768px){ .wrap{padding-left:max(40px, env(safe-area-inset-left, 0px)); padding-right:max(40px, env(safe-area-inset-right, 0px));} }
+
+.display{font-family:var(--display); font-weight:500; text-transform:uppercase; line-height:.9; letter-spacing:0; margin:0;}
+
+/* nav */
+.nav{position:absolute; top:0; left:0; right:0; z-index:5; color:var(--on-black);}
+.nav .wrap{display:flex; align-items:center; justify-content:center; height:96px;}
+.lockup{display:flex; align-items:center; gap:clamp(14px,2vw,22px);}
+.lockup svg, .lockup img{height:34px; width:auto; display:block;}
+.lockup .x{font-size:20px; line-height:1; color:var(--on-black-muted); font-weight:300;}
+
+/* hero */
+.hero{background:var(--black); color:var(--on-black); position:relative; overflow:hidden; box-shadow:-2px 0 0 var(--black), 2px 0 0 var(--black);}
+.hero .wrap{padding-top:clamp(120px,13vw,170px); padding-bottom:clamp(40px,5vw,64px); display:flex; flex-direction:column; align-items:center; gap:clamp(24px,3vw,40px);}
+.hero h1{font-size:clamp(3.4rem,10.5vw,8.5rem); text-align:center; text-wrap:balance;}
+.hero-sub{margin:0; max-width:none; white-space:nowrap; text-align:center; font-size:clamp(16px,1.3vw,19px); line-height:1.5;}
+.hero-sub b{font-weight:500;}
+.talk{width:min(100%,300px); margin-top:8px;}
+.talk a{border:1px solid var(--on-black);}
+@media (max-width:600px){ .hero-sub{white-space:normal; text-wrap:balance;} }
+.talk a::after{content:""; width:7px; height:7px; background:var(--red); position:relative; z-index:1; transition:background .45s var(--ease);}
+.talk a:hover::after{background:var(--ink);}
+
+/* buttons: orange fill slides up on hover */
+.talk a, .btn{
+  position:relative; overflow:hidden; isolation:isolate;
+  display:flex; justify-content:space-between; align-items:center;
+  background:var(--black); color:var(--on-black); text-decoration:none; font-size:17px;
+  transition:color .45s var(--ease);
+}
+.talk a{padding:16px;}
+.btn{margin-top:auto; padding:20px 24px;}
+.talk a::before, .btn::before{
+  content:""; position:absolute; inset:0; z-index:0; background:var(--orange);
+  transform:translateY(101%); transition:transform .55s var(--ease);
+}
+.talk a:hover::before, .btn:hover::before, .talk a:focus-visible::before, .btn:focus-visible::before{transform:translateY(0);}
+.talk a:hover, .btn:hover, .talk a:focus-visible, .btn:focus-visible{color:var(--on-black);}
+.btn > *, .talk a > *{position:relative; z-index:1;}
+.btn svg{transition:transform .45s var(--ease);}
+.btn:hover svg{transform:translate(4px,0);}
+@media (prefers-reduced-motion: reduce){ .talk a::before, .btn::before, .btn svg, a{transition:none;} }
+
+/* sections */
+.sec{padding-block:clamp(72px,10vw,140px);}
+.two{display:grid; grid-template-columns:1fr; gap:40px;}
+@media (min-width:1000px){ .two{grid-template-columns:minmax(0,4fr) minmax(0,6fr); gap:40px;} }
+.two > *{min-width:0;}
+.sec h2{font-size:clamp(3.5rem,7vw,6rem);}
+.sec h2 sup{font-family:var(--body); font-size:16px; text-transform:none; vertical-align:top; position:relative; top:.4em; margin-left:8px; color:var(--ink);}
+.lede{margin:24px 0 0; max-width:340px; color:var(--ink); font-size:16px;}
+
+.rows{list-style:none; margin:0; padding:0; border-top:1px solid var(--line);}
+.rows li{display:grid; grid-template-columns:52px 1fr; gap:8px; padding:26px 0; border-bottom:1px solid var(--line); font-size:18px; line-height:1.5;}
+.rows .n{color:var(--muted); font-size:14px; padding-top:4px;}
+.rows p{margin:0; max-width:64ch;}
+
+/* pricing */
+.price-table{width:100%; border-collapse:collapse; border-top:1px solid var(--line);}
+.price-table th{font-weight:400; color:var(--muted); font-size:14px; text-align:left; padding:16px 16px 16px 0;}
+.price-table td{border-top:1px solid var(--line); padding:26px 16px 26px 0; vertical-align:top; font-size:18px;}
+.price-table td small{display:block; color:var(--muted); font-size:14px; margin-top:4px;}
+.price-table .wk{white-space:nowrap; color:var(--muted); font-size:16px;}
+.price-table tr.sum td{border-top:1px solid var(--ink);}
+.price-table .amt{font-family:var(--display); font-size:clamp(2.4rem,4vw,3.5rem); line-height:1; font-variant-numeric:tabular-nums; white-space:nowrap;}
+.table-scroll{overflow-x:auto;}
+.note{margin:20px 0 0; color:var(--muted); font-size:14px; max-width:64ch;}
+
+/* timeline */
+.gantt-intro{display:grid; grid-template-columns:1fr; gap:40px; margin-bottom:56px;}
+@media (min-width:1000px){ .gantt-intro{grid-template-columns:minmax(0,4fr) minmax(0,6fr);} }
+.gantt-intro p{margin:0; font-size:18px; max-width:64ch;}
+.legend{display:flex; gap:28px; margin-top:32px; font-size:14px; color:var(--muted); flex-wrap:wrap;}
+.legend span{display:inline-flex; align-items:center; gap:8px;}
+.legend i{width:12px; height:12px; display:inline-block;}
+.gantt-scroll{overflow-x:auto;}
+.gantt{min-width:860px;}
+.g-row{display:grid; grid-template-columns:minmax(200px,4fr) minmax(0,6fr); align-items:center; min-height:52px; border-bottom:1px solid var(--line);}
+.g-row.head{min-height:40px; color:var(--muted); font-size:14px; border-bottom:1px solid var(--ink);}
+.g-weeks{display:grid; grid-template-columns:repeat(6,1fr);}
+.g-weeks span{padding-left:8px; border-left:1px solid var(--line);}
+.g-label{font-size:17px; padding-right:16px;}
+.g-label .n{color:var(--muted); font-size:14px; margin-right:14px;}
+.g-track{position:relative; height:52px; background:
+  linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / calc(100% / 6) 100%;}
+.bar{position:absolute; top:19px; height:14px;}
+.bar.d{background:var(--bar-design);}
+.bar.b{background:var(--bar-build);}
+.bar.f{background:#fff; border:1.5px solid var(--ink); box-sizing:border-box;}
+.bar.s{background:repeating-linear-gradient(135deg,#D9D9D9 0 4px,#F2F2F2 4px 8px);}
+.g-row.milestone .g-label{font-family:var(--display); font-size:28px; text-transform:uppercase; line-height:1;}
+.g-row.milestone .bar{top:14px; height:24px; color:#fff; font-size:13px; display:flex; align-items:center; padding-left:10px; white-space:nowrap;}
+
+/* examples */
+.works{display:flex; flex-direction:column; gap:clamp(40px,5vw,64px); max-width:520px;}
+.work{display:flex; flex-direction:column; gap:14px; min-width:0;}
+.work img{display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; background:#111;}
+.work h3{font-size:clamp(2rem,2.8vw,2.8rem); margin-top:14px;}
+.work p{margin:0; font-size:16px; max-width:56ch;}
+.btn svg{width:18px; height:18px;}
+.work .shot{display:block;}
+.work .btn{margin-top:2px; padding:14px 18px; font-size:16px;}
+
+/* highlights */
+.stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px 28px; margin:56px 0 0;}
+.stat .big{font-family:var(--display); font-weight:500; text-transform:uppercase; line-height:.9; font-size:clamp(2.2rem,3.4vw,3.2rem); letter-spacing:0; white-space:nowrap;}
+.stat .big small{font-size:.45em; margin-left:.12em;}
+.stat.hot .big{color:var(--orange);}
+.stat p{margin:10px 0 0; color:var(--muted); font-size:14px; line-height:1.35;}
+.stat p b{color:var(--ink); font-weight:500; display:block; font-size:15px;}
+@media (max-width:600px){ .stats{grid-template-columns:1fr;} }
+
+.revs{background:#F2F2F2; color:var(--ink); margin-top:40px; padding:clamp(28px,4vw,48px); display:grid; grid-template-columns:1fr; gap:36px; align-items:center;}
+@media (min-width:760px){ .revs{grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:40px;} }
+.revs-head{display:flex; flex-direction:column; gap:14px;}
+.revs-head .n{font-family:var(--display); font-weight:500; font-size:clamp(6rem,11vw,10rem); line-height:.8; color:var(--ink);}
+.revs-head p{margin:0; font-size:20px; line-height:1.25; max-width:16ch;}
+.checks{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+.checks{gap:18px;}
+.checks li{display:grid; grid-template-columns:56px 1fr; align-items:start; gap:8px; font-size:17px; line-height:1.3;}
+.checks .t{text-wrap:balance;}
+.revs-note{grid-column:2; margin:-12px 0 0;}
+.checks .k{font-family:var(--display); font-size:30px; line-height:22px; color:var(--ink);}
+
+/* scope ticks */
+.rows.scope li{grid-template-columns:52px 1fr;}
+
+.bar.p{background:repeating-linear-gradient(135deg,var(--orange) 0 4px,#FDB3A8 4px 8px);}
+.lockup .client{height:28px;}
+.rows p b{font-weight:500;}
+.refs{max-width:700px;}
+.review{background:#F2F2F2; padding:clamp(12px,1.4vw,20px);}
+.review img{display:block; width:100%; height:auto; aspect-ratio:auto; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.06);}
+.work p a{text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px;}
+.work p a:hover{color:var(--orange);}
+.ref-stats{grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px 28px; margin:40px 0 0; max-width:380px;}
+.ref-cta{margin-top:40px; max-width:360px;}
+.ref-cta .btn{padding:18px 20px;}
+.ref-cta .note{margin-top:12px;}
+.more{margin:0; font-size:18px;}
+.more a{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1px;}
+.more a:hover{color:var(--orange);}
+.gantt-intro .revs{margin-top:40px; grid-template-columns:1fr; gap:28px;}
+@media (min-width:760px){ .gantt-intro .revs{grid-template-columns:minmax(0,4fr) minmax(0,7fr);} }
+</style></head><body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="lockup">
+      <a href="https://kantalinsky.com/" aria-label="Dima Kantalinsky home">
+        <svg viewBox="0 0 350 250" fill="currentColor" aria-hidden="true"><path d="M200 150H300V250H200V150Z"/><path d="M350 0L100 250H0V100L100 0v109.136L208.895 0H350z"/></svg>
+      </a>
+      <span class="x" aria-hidden="true">×</span>
+      <img class="client" src="fonts/bethesda-white.svg" alt="Bethesda Systems">
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 class="display">Website Design and<br>Webflow Development</h1>
+    <p class="hero-sub">A custom site that people, search engines and AI assistants can read and recommend<br>for <b>Bethesda Systems</b></p>
+  </div>
+</section>
+
+<main>
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Approach</h2>
+        <p class="lede">Hi Jennifer, here is how I would design and build the new Bethesda Systems website.</p>
+      </div>
+      <div>
+      <ol class="rows">
+        <li><span class="n">/01</span><p>I design and build myself, in Figma and Webflow. The page you approve is the page I build, so nothing gets lost in a handover.</p></li>
+        <li><span class="n">/02</span><p><b>Webflow</b>, set up in your name. You own the domain, design, content and all assets, with full admin access to the CMS, Search Console, Analytics and the page source. Webflow can export the code, so you can move providers at any time.</p></li>
+        <li><span class="n">/03</span><p>Custom design and custom copy, written around the questions your buyers ask: what you install, for whom, where, on which platforms, and what proves it. No themes or template copy.</p></li>
+        <li><span class="n">/04</span><p>Your marketing team publishes projects, guides and FAQs in the Webflow Editor from ready templates, without breaking the design.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">AI and <br>Search</h2>
+        <p class="lede">Built to be read, cited and recommended.</p>
+      </div>
+      <div>
+      <ol class="rows">
+        <li><span class="n">/01</span><p>Every page is server-rendered, so its full text is in the page source. Nothing important sits behind scripts or clicks.</p></li>
+        <li><span class="n">/02</span><p>Clean URLs, canonical tags, an XML sitemap submitted to Search Console, and no accidental noindex or snippet blocks.</p></li>
+        <li><span class="n">/03</span><p>Structured data on every relevant page: LocalBusiness, Service, FAQ, Review and Breadcrumb.</p></li>
+        <li><span class="n">/04</span><p>One consistent company description and address, 4840 Cordell Ave, Bethesda, MD 20814, on every page, written so you are never confused with the medical Bethesda System.</p></li>
+        <li><span class="n">/05</span><p>A few strong service-area pages for Bethesda, Potomac, Chevy Chase, DC and Northern Virginia, not many near-identical city pages.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">What’s <br>Included</h2>
+        <p class="lede">Every page in your brief, plus the integrations.</p>
+      </div>
+      <div>
+      <ol class="rows">
+        <li><span class="n">/01</span><p><b>Pages:</b> homepage, 8 service pages, platform pages for Control4, Savant, Lutron and other key brands, builders, architects and designers with a partner inquiry form, service areas, about and team, service plans, showroom, and contact.</p></li>
+        <li><span class="n">/02</span><p><b>CMS templates:</b> Projects with location, scope, systems, results, before and after photos and video with transcript. Guides and FAQs titled as buyer questions, with FAQ schema.</p></li>
+        <li><span class="n">/03</span><p><b>Zoho CRM:</b> the consultation and partner forms send leads to Zoho with every field mapped, including name, address, project type and systems of interest. I test every field end to end before launch.</p></li>
+        <li><span class="n">/04</span><p><b>Performance and accessibility:</b> mobile-first, optimized photos and video, strong Core Web Vitals and WCAG 2.1 AA.</p></li>
+        <li><span class="n">/05</span><p><b>Copy, photography and video</b> for the new pages.</p></li>
+        <li><span class="n">/06</span><p><b>Migration:</b> the pages and posts worth keeping, with a 301 redirect from every old URL.</p></li>
+        <li><span class="n">/07</span><p><b>Training</b> for your team, recorded, plus a short how-to guide.</p></li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Pricing</h2>
+        <p class="lede">Two fixed prices. Everything in your brief is included.</p>
+      </div>
+      <div>
+      <div class="table-scroll">
+          <table class="price-table">
+            <thead><tr><th>Milestone</th><th>Weeks</th><th>Fixed price</th></tr></thead>
+            <tbody>
+              <tr><td>1 · Design<small>Homepage with the interactive hero, then every page and template, desktop and mobile. Copy, photography and video included.</small></td><td class="wk">2.5</td><td class="amt">$2,000</td></tr>
+              <tr><td>2 · Webflow development<small>CMS, structured data, Zoho CRM, migration and redirects, launch, training and how-to guide, then one week of fixes after launch.</small></td><td class="wk">4.5</td><td class="amt">$3,000</td></tr>
+              <tr class="sum"><td>Total<small>Start Mon 9 Nov 2026 · Launch Fri 11 Dec · Fixes until Fri 18 Dec</small></td><td class="wk"></td><td class="amt">$5,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Hosting is a Webflow site plan, billed by Webflow directly to your account. Ongoing support and extra feedback rounds are $50 per hour.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="gantt-intro">
+        <h2 class="display">Timeline</h2>
+        <div>
+          <p>Five weeks to launch, then a week of fixes while your team uses the live site. Inner pages are designed while you review the homepage, and the build starts once the homepage is approved.</p>
+          <p style="margin-top:20px">Thanksgiving week holds the homepage build review on 23–25 Nov and a 1-day confirmation on Fri 27 Nov, which can move to Mon 30 Nov without changing the launch. I work 30 hours a week in Central European Time and can work weekends when needed.</p>
+          <div class="stats">
+            <div class="stat hot"><div class="big">9 Nov</div><p><b>Start date</b></p></div>
+            <div class="stat"><div class="big">11 Dec</div><p><b>Launch</b></p></div>
+            <div class="stat"><div class="big">18 Dec</div><p><b>Fixes done</b></p></div>
+          </div>
+          <div class="legend">
+            <span><i style="background:var(--bar-design)"></i>Design</span>
+            <span><i style="background:var(--bar-build)"></i>Webflow build and launch</span>
+            <span><i style="background:#fff; border:1.5px solid var(--ink); box-sizing:border-box"></i>Your feedback: 3 days, then 1 day to confirm</span>
+            <span><i style="background:repeating-linear-gradient(135deg,var(--orange) 0 2px,#FDB3A8 2px 4px)"></i>Fixes after launch</span>
+          </div>
+          <div class="revs">
+            <div class="revs-head"><div class="n">4</div><p>Feedback sessions, all in the plan</p></div>
+            <ul class="checks">
+              <li><span class="k">01</span><span class="t">Homepage design. 11–17 Nov.</span></li>
+              <li><span class="k">02</span><span class="t">All pages designed. 19–25 Nov.</span></li>
+              <li><span class="k">03</span><span class="t">Homepage built in Webflow. 23–27 Nov.</span></li>
+              <li><span class="k">04</span><span class="t">Whole site built, before launch. 4–10 Dec.</span></li>
+            </ul>
+            <p class="note revs-note">Each session: 3 days for you to review, 1 day for my changes, 1 day for you to confirm.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="gantt-scroll">
+        <div class="gantt">
+          <div class="g-row head"><div></div><div class="g-weeks"><span>9 Nov</span><span>16 Nov</span><span>23 Nov</span><span>30 Nov</span><span>7 Dec</span><span>14 Dec</span></div></div>
+          <div class="g-row milestone"><div class="g-label">Design</div><div class="g-track"><div class="bar d" style="left:0.00%; width:43.33%">Milestone 1</div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/01</span>Homepage design</div><div class="g-track"><div class="bar d" style="left:0.00%; width:6.67%"></div><div class="bar f" style="left:6.67%; width:10.00%"></div><div class="bar d" style="left:16.67%; width:3.33%"></div><div class="bar f" style="left:20.00%; width:3.33%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/02</span>All other pages</div><div class="g-track"><div class="bar d" style="left:6.67%; width:20.00%"></div><div class="bar f" style="left:26.67%; width:10.00%"></div><div class="bar d" style="left:36.67%; width:3.33%"></div><div class="bar f" style="left:40.00%; width:3.33%"></div></div></div>
+          <div class="g-row milestone"><div class="g-label">Webflow Build</div><div class="g-track"><div class="bar b" style="left:23.33%; width:60.00%">Milestone 2</div><div class="bar p" style="left:83.33%; width:16.67%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/03</span>Homepage build</div><div class="g-track"><div class="bar b" style="left:23.33%; width:10.00%"></div><div class="bar f" style="left:33.33%; width:10.00%"></div><div class="bar b" style="left:43.33%; width:3.33%"></div><div class="bar f" style="left:46.67%; width:3.33%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/04</span>Pages, CMS, Zoho, schema, migration</div><div class="g-track"><div class="bar b" style="left:36.67%; width:26.67%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/05</span>Full site review</div><div class="g-track"><div class="bar f" style="left:63.33%; width:10.00%"></div><div class="bar b" style="left:73.33%; width:3.33%"></div><div class="bar f" style="left:76.67%; width:3.33%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/06</span>QA, launch, training</div><div class="g-track"><div class="bar b" style="left:80.00%; width:3.33%"></div></div></div>
+          <div class="g-row"><div class="g-label"><span class="n">/07</span>Fixes after launch</div><div class="g-track"><div class="bar p" style="left:83.33%; width:16.67%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Homepage <br>Concept</h2>
+        <p class="lede">A first look at your homepage, built before this proposal.</p>
+      </div>
+      <div>
+      <div class="works">
+        <article class="work">
+          <a class="shot" href="https://www.kantalinsky.com/bethesda-systems-concept/" target="_blank" rel="noopener" aria-label="Open Bethesda Systems Concept"><img src="previews/bethesda-systems-concept.jpg" alt="Preview of the Bethesda Systems homepage concept" loading="lazy"></a>
+          <h3 class="display">Bethesda Systems Concept</h3>
+          <p>Tap the points on the house to see lighting, shades, audio, theater, Wi-Fi, security, landscape lighting and automation at work. The photo is a placeholder; the live site uses your own projects.</p>
+          <a class="btn" href="https://www.kantalinsky.com/bethesda-systems-concept/" target="_blank" rel="noopener"><span>View Concept</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">Closest <br>Examples</h2>
+        <p class="lede">Designed and built by me in Webflow. None are smart home or AV. They are the closest on CMS structure, service pages and a premium feel.</p>
+      </div>
+      <div>
+      <div class="works">
+        <article class="work">
+          <a class="shot" href="https://securityconsultants.webflow.io" target="_blank" rel="noopener" aria-label="Open Security Consultants"><img src="previews/sc.jpg" alt="Security Consultants website preview" loading="lazy"></a>
+          <h3 class="display">Security Consultants</h3>
+          <p>ISO 27001 and SOC 2 consultancy. Clear service pages that lead to a consultation, close to how your services should read.</p>
+          <a class="btn" href="https://securityconsultants.webflow.io" target="_blank" rel="noopener"><span>View Website</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <article class="work">
+          <a class="shot" href="https://currency-group.webflow.io" target="_blank" rel="noopener" aria-label="Open Digital Currency Group"><img src="previews/dcg.jpg" alt="Digital Currency Group website preview" loading="lazy"></a>
+          <h3 class="display">Digital Currency Group</h3>
+          <p>Institutional investment platform with portfolio filtering across 200+ companies. Closest on CMS depth.</p>
+          <a class="btn" href="https://currency-group.webflow.io" target="_blank" rel="noopener"><span>View Website</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <article class="work">
+          <a class="shot" href="https://midnight-am.webflow.io" target="_blank" rel="noopener" aria-label="Open Midnight AM"><img src="previews/mn.jpg" alt="Midnight AM website preview" loading="lazy"></a>
+          <h3 class="display">Midnight AM</h3>
+          <p>Concept site for a New York branding agency. Shows the editorial and motion range.</p>
+          <a class="btn" href="https://midnight-am.webflow.io" target="_blank" rel="noopener"><span>View Website</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <p class="more">More work at <a href="https://kantalinsky.com/" target="_blank" rel="noopener">kantalinsky.com</a></p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="display">References</h2>
+        <p class="lede">Most of my work runs through Upwork, where every project and review is on record. Three clients you can contact directly:</p>
+        <div class="stats ref-stats">
+          <div class="stat hot"><div class="big">130+</div><p><b>Projects on Upwork</b></p></div>
+          <div class="stat"><div class="big">5.0</div><p><b>Rating on the reviews here</b></p></div>
+          <div class="stat"><div class="big">100%</div><p><b>Job Success Score</b></p></div>
+          <div class="stat"><div class="big">$490K</div><p><b>Earned on Upwork</b></p></div>
+        </div>
+        <div class="ref-cta">
+          <a class="btn" href="https://www.upwork.com/freelancers/webflowdesign" target="_blank" rel="noopener"><span>View Upwork Profile</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+          <p class="note">The full project history is visible when signed in to Upwork.</p>
+        </div>
+      </div>
+      <div class="works refs">
+        <article class="work">
+          <div class="review"><img src="previews/review-severin.png" alt="Five-star Upwork review from Phil Sell: our second project with Dima and again he delivered an outstanding result" loading="lazy"></div>
+          <h3 class="display">Phil Sell</h3>
+          <p>Owner, Severin Travel. I designed and built <a href="https://www.severin-travel.de" target="_blank" rel="noopener">severin-travel.de</a> and <a href="http://severinsealodge.com" target="_blank" rel="noopener">Severin Sea Lodge</a> for him, and we are on our third project.</p>
+          <a class="btn" href="https://www.linkedin.com/in/philsell/" target="_blank" rel="noopener"><span>Contact on LinkedIn</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <article class="work">
+          <div class="review"><img src="previews/review-dcg.png" alt="Five-star Upwork review from Chad Owen: my longest-running and most favorite collaborator on all of Upwork" loading="lazy"></div>
+          <h3 class="display">Chad Owen</h3>
+          <p>Independent producer. We worked together on many projects from 2022 to 2024, including the Digital Currency Group site.</p>
+          <a class="btn" href="https://www.linkedin.com/in/heychad/" target="_blank" rel="noopener"><span>Contact on LinkedIn</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+        <article class="work">
+          <div class="review"><img src="previews/review-explorer.png" alt="Five-star Upwork review from Patti Green: hands down the best freelancer I have worked with on Upwork" loading="lazy"></div>
+          <h3 class="display">Patti Green</h3>
+          <p>Explorer Software. I designed and built <a href="https://www.explorer-software.com/" target="_blank" rel="noopener">explorer-software.com</a>, their construction ERP website.</p>
+          <a class="btn" href="https://www.linkedin.com/in/pattigreen/" target="_blank" rel="noopener"><span>Contact on LinkedIn</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v9h14M14 9l4 4-4 4"/></svg></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body></html>
